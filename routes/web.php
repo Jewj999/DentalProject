@@ -53,6 +53,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Dashboard
     Route::get('/', 'DashboardController@index')->name('dashboard');
 
+    //Pacientes
+    Route::get('pacientes', 'PacienteController@index')->name('pacientes');
+    Route::get('pacientes/new', 'PacienteController@new')->name('pacientes.new');
+
     //Users
     Route::get('users', 'UserController@index')->name('users');
     Route::get('users/restore', 'UserController@restore')->name('users.restore');
