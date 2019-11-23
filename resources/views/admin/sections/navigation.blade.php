@@ -38,7 +38,7 @@
                 <h3>Administracion</h3>
                 <ul class="nav side-menu">
                     <li>
-                        <a href="{{ route('admin.pacientes') }}">
+                        <a href="{{ route('admin.pacientes.list') }}">
                             <i class="fa fa-users" aria-hidden="true"></i>
                             Pacientes
                         </a>

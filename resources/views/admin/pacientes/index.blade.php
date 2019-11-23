@@ -10,7 +10,7 @@
                 <a class="nav-link" href="{{ route('admin.pacientes.new') }}">Nuevo Paciente</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="">Listado de Pacientes</a>
+                <a class="nav-link" href="{{ route('admin.pacientes.list') }}">Listado de Pacientes</a>
             </li>
         </ul>
     </div>

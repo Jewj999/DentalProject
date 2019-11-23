@@ -115,3 +115,19 @@
     opacity: .5;
     cursor: default;
 }
+
+.d-flex{
+    display: flex;
+}
+
+.align-content-center{
+    align-content: center;
+}
+
+.justify-content-center{
+    justify-content: center;
+}
+
+.justify-content-end{
+    justify-content: end;
+}

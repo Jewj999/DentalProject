@@ -7,68 +7,97 @@
         <div class="col-md-12 col-sm-12">
             <div class="row">
                 <div class="x_content">
-                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
-                        <div class="item form-group">
-                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">First Name
-                                <span class="required">*</span>
-                            </label>
-                            <div class="col-md-6 col-sm-6 ">
-                                <input type="text" id="first-name" required="required" class="form-control ">
-                            </div>
-                        </div>
-                        <div class="item form-group">
-                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Last Name
-                                <span class="required">*</span>
-                            </label>
-                            <div class="col-md-6 col-sm-6 ">
-                                <input type="text" id="last-name" name="last-name" required="required"
-                                    class="form-control">
-                            </div>
-                        </div>
-                        <div class="item form-group">
-                            <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Middle
-                                Name / Initial</label>
-                            <div class="col-md-6 col-sm-6 ">
-                                <input id="middle-name" class="form-control" type="text" name="middle-name">
-                            </div>
-                        </div>
-                        <div class="item form-group">
-                            <label class="col-form-label col-md-3 col-sm-3 label-align">Gender</label>
-                            <div class="col-md-6 col-sm-6 ">
-                                <div id="gender" class="btn-group" data-toggle="buttons">
-                                    <label class="btn btn-secondary" data-toggle-class="btn-primary"
-                                        data-toggle-passive-class="btn-default">
-                                        <input type="radio" name="gender" value="male" class="join-btn"> &nbsp; Male
-                                        &nbsp;
-                                    </label>
-                                    <label class="btn btn-primary" data-toggle-class="btn-primary"
-                                        data-toggle-passive-class="btn-default">
-                                        <input type="radio" name="gender" value="female" class="join-btn"> Female
-                                    </label>
+                    <form action="{{route('admin.pacientes.create')}}" method="POST" class="form-horizontal">
+                        @csrf
+                        <div class="row d-flex justify-content-center">
+                            <div class="form-group col-md-5">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="nameField">Nombres</label>
+                                        <input type="text" class="form-control" id="nameField" name="nameField"
+                                            placeholder="Omar Alexander">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="bornField">Fecha de nacimiento</label>
+                                        <input type="date" class="form-control" id="bornField" name="bornField">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="duiField">DUI</label>
+                                        <input type="text" class="form-control" name="duiField" id="duiField"
+                                            placeholder="123456789">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="bornField">Departamento</label>
+                                        <select class="form-control" name="dptoField" id="">
+                                            @foreach ($dptos as $dpto)
+                                            <option value="{{$dpto->id}}">{{$dpto->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="munField">Municipio</label>
+                                        <select class="form-control" name="munField" id="">
+                                            <option value="2" selected>Soyapango</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="item form-group">
-                            <label class="col-form-label col-md-3 col-sm-3 label-align">Date Of Birth <span
-                                    class="required">*</span>
-                            </label>
-                            <div class="col-md-6 col-sm-6 ">
-                                <input id="birthday" class="date-picker form-control" required="required" type="text">
+                            <div class="form-group col-md-5">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="lastNameField">Apellidos</label>
+                                        <input type="text" class="form-control" id="lastNameField" name="lastNameField"
+                                            placeholder="Lino Cruz">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="phoneField">Telefono</label>
+                                        <input type="text" class="form-control" id="phoneField" name="phoneField"
+                                            placeholder="78871991">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="dptoField">Genero</label>
+                                        <select class="form-control" name="sexField" id="sexField">
+                                            @foreach ($sexes as $sexe)
+                                            <option value="{{$sexe->id}}">{{$sexe->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="">Direccion</label>
+                                        <input class="form-control" type="text" name="dirField" id=""
+                                            placeholder="Barrio San Esteban, Poligono 4, Casa #12">
+                                    </div>
+                                </div>
+                                <br>
                             </div>
                         </div>
-                        <div class="ln_solid"></div>
-                        <div class="item form-group">
-                            <div class="col-md-6 col-sm-6 offset-md-3">
-                                <button class="btn btn-primary" type="button">Cancel</button>
-                                <button class="btn btn-primary" type="reset">Reset</button>
-                                <button type="submit" class="btn btn-success">Submit</button>
+                        <div class="row">
+                            <div class="col-md-12 d-flex justify-content-center">
+                                <button type="submit" class="btn btn-primary">Registrar</button>
                             </div>
                         </div>
-
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+@parent
+@endsection
+
+@section('styles')
+@parent
 @endsection
