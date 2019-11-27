@@ -62,7 +62,7 @@ class PacienteController extends Controller
             $paciente->save();
             return redirect()->route('admin.pacientes.list', ["create_success" => "Se ha creado correctament"]);
         } catch (\Exception $e) {
-            return view('error', ['code' => 500, message => $e->getMessage()]);
+            return view('error', ['code' => 500, 'message' => $e->getMessage()]);
         }
     }
 }
