@@ -44,6 +44,12 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{ route('admin.servicios.create') }}">
+                            <i class="fa fa-check-square" aria-hidden="true"></i>
+                            Servicios
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{route('admin.appointment.list')}}">
                             <i class="fa fa-calendar" aria-hidden="true"></i>
                             Citas
