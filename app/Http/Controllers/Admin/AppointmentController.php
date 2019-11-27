@@ -51,16 +51,22 @@ class AppointmentController extends Controller
             if ($patient == null) {
                 return view('error', ['code' => 404, 'message' => 'Patient not found']);
             } else {
-                $appointment = new Appointment();
-                $appointment->day = $request->day;
-                $appointment->hour = $request->hour;
-                $appointment->reason = $request->reason;
                 if ($validator->fails()) {
                     return redirect()->back()->withInput($request->all())->withErrors($validator->errors());
                 } else {
                     $now = Carbon::now();
                     $appointmen_date = new Carbon($request->day . ' ' . $request->hour);
-                    if ($now > $appointmen_date) {
+                    echo($now);
+                    if ($now >= $appointmen_date) {
+                        $validator->after(function ($validator) {
+                            $validator->errors()->add('hour', 'Hour incorrect, the appointments only used for after dates');
+                        });
+                    } else {
+                        $count_appointments = Appointment::where([
+                            ['day', '=', $request->day],
+                            ['hour', '=', $request->hour]
+                        ])->count();
+                        echo ($count_appointments);
                     }
                 }
             }
