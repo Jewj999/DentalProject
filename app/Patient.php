@@ -12,7 +12,7 @@ class Patient extends Model
 
     protected $table = "patients";
 
-    public function gender()
+    public function sex()
     {
         return $this->belongsTo('App\Sexe', 'sex_id', 'id');
     }

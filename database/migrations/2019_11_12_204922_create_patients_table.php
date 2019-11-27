@@ -19,7 +19,7 @@ class CreatePatientsTable extends Migration
             $table->string('apellido', 50);
             $table->date('born');
             $table->string('phone', 9)->nullable();
-            $table->string('dui', 10)->unique();
+            $table->string('dui', 10)->nullable()->unique();
             $table->string('direction', 255)->nullable();
             $table->unsignedBigInteger('municipality_id');
             $table->unsignedBigInteger('sex_id');
