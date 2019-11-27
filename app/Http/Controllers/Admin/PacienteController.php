@@ -25,7 +25,9 @@ class PacienteController extends Controller
 
     public function list(Request $request)
     {
-        $pacientes = Patient::all()->load('sex');
+        // return view('admin.pacientes.listado', ["patients" => Patient::with('gender')->sortable(['name', 'apellido'])->paginate()]);
+
+        $pacientes = Patient::with('sex')->sortable(['name', 'apellido'])->paginate();
         return view('admin.pacientes.listado', ["patients" => $pacientes]);
     }
 
@@ -58,9 +60,9 @@ class PacienteController extends Controller
             $paciente->municipality_id = $request->munField;
             $paciente->sex_id = $request->sexField;
             $paciente->save();
-            return redirect()->route('admin.pacientes.list');
+            return redirect()->route('admin.pacientes.list', ["create_success" => "Se ha creado correctament"]);
         } catch (\Exception $e) {
-            return view('error', ['code' => 500, message => $ex->getMessage()]);
+            return view('error', ['code' => 500, message => $e->getMessage()]);
         }
     }
 }
