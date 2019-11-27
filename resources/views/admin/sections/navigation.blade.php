@@ -44,6 +44,12 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{ route('admin.servicios.create') }}">
+                            <i class="fa fa-check-square" aria-hidden="true"></i>
+                            Servicios
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('admin.users') }}">
                             <i class="fa fa-users" aria-hidden="true"></i>
                             {{ __('views.backend.section.navigation.menu_1_1') }}

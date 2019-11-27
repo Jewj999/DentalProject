@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Patient;
 use App\Sexe;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PacienteController extends Controller
 {
@@ -24,23 +25,41 @@ class PacienteController extends Controller
 
     public function list(Request $request)
     {
-        $pacientes = Patient::all();
-        return view('admin.pacientes.listado', ["patients" => $pacientes]);
+        return view('admin.pacientes.listado', ["patients" => Patient::with('gender')->sortable(['name', 'apellido'])->paginate()]);
     }
 
     public function create(Request $request)
     {
-        $paciente = new Patient();
-        $paciente->name = $request->nameField;
-        $paciente->apellido = $request->lastNameField;
-        $paciente->born = $request->bornField;
-        $paciente->phone = $request->phoneField;
-        $paciente->dui = $request->duiField;
-        $paciente->direction = $request->dirField;
-        $paciente->municipality_id = $request->munField;
-        $paciente->sex_id = $request->sexField;
+        try {
+            $v = Validator::make($request->all(), [
+                "nameField" => "required",
+                "lastNameField" => "required",
+                "bornField" => "required",
+                "phoneField" => "required",
+                "duiField" => "required",
+                "dirField" => "required",
+                "munField" => "required",
+                "sexField" => "required"
+            ]);
 
-        $paciente->save();
+            if ($v->fails()) {
+                dd($v->errors());
+                return redirect()->back()->withErrors($v->errors());
+            }
+            
+            $paciente = new Patient();
+            $paciente->name = $request->nameField;
+            $paciente->apellido = $request->lastNameField;
+            $paciente->born = $request->bornField;
+            $paciente->phone = $request->phoneField;
+            $paciente->dui = $request->duiField;
+            $paciente->direction = $request->dirField;
+            $paciente->municipality_id = $request->munField;
+            $paciente->sex_id = $request->sexField;
+            $paciente->save();
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
 
         return redirect()->route('admin.pacientes.list');
     }

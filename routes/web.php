@@ -53,12 +53,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Dashboard
     Route::get('/', 'DashboardController@index')->name('dashboard');
 
-    //Pacientes
     Route::post('pacientes', 'PacienteController@create')->name('pacientes.create');
-    // Route::get('pacientes', 'PacienteController@index')->name('pacientes');
     Route::get('pacientes/new', 'PacienteController@new')->name('pacientes.new');
     Route::get('pacientes/list', 'PacienteController@list')->name('pacientes.list');
+    Route::get('pacientes/{id}', 'PacienteController@show')->name('pacientes.show');
 
+    //Services
+    Route::get('servicios', 'ServicioController@create')->name('servicios.create');
 
     //Users
     Route::get('users', 'UserController@index')->name('users');
@@ -73,7 +74,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('dashboard/log-chart', 'DashboardController@getLogChartData')->name('dashboard.log.chart');
     Route::get('dashboard/registration-chart', 'DashboardController@getRegistrationChartData')->name('dashboard.registration.chart');
 });
-
 
 Route::get('/', 'HomeController@index');
 
