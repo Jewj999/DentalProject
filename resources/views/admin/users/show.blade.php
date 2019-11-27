@@ -3,9 +3,9 @@
 @section('title', __('views.admin.users.show.title', ['name' => $user->name]))
 
 @section('content')
-    <div class="row">
-        <table class="table table-striped table-hover">
-            <tbody>
+<div class="row">
+    <table class="table table-striped table-hover">
+        <tbody>
             <tr>
                 <th>{{ __('views.admin.users.show.table_header_0') }}</th>
                 <td><img src="{{ $user->avatar }}" class="user-profile-image"></td>
@@ -34,9 +34,9 @@
                 <th>{{ __('views.admin.users.show.table_header_4') }}</th>
                 <td>
                     @if($user->active)
-                        <span class="label label-primary">{{ __('views.admin.users.show.active') }}</span>
+                    <span class="label label-primary">{{ __('views.admin.users.show.active') }}</span>
                     @else
-                        <span class="label label-danger">{{ __('views.admin.users.show.inactive') }}</span>
+                    <span class="label label-danger">{{ __('views.admin.users.show.inactive') }}</span>
                     @endif
                 </td>
             </tr>
@@ -45,9 +45,9 @@
                 <th>{{ __('views.admin.users.show.table_header_5') }}</th>
                 <td>
                     @if($user->confirmed)
-                        <span class="label label-success">{{ __('views.admin.users.show.confirmed') }}</span>
+                    <span class="label label-success">{{ __('views.admin.users.show.confirmed') }}</span>
                     @else
-                        <span class="label label-warning">{{ __('views.admin.users.show.not_confirmed') }}</span>
+                    <span class="label label-warning">{{ __('views.admin.users.show.not_confirmed') }}</span>
                     @endif</td>
                 </td>
             </tr>
@@ -61,7 +61,7 @@
                 <th>{{ __('views.admin.users.show.table_header_7') }}</th>
                 <td>{{ $user->updated_at }} ({{ $user->updated_at->diffForHumans() }})</td>
             </tr>
-            </tbody>
-        </table>
-    </div>
+        </tbody>
+    </table>
+</div>
 @endsection

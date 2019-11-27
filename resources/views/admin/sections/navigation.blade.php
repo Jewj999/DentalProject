@@ -44,6 +44,12 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{route('admin.appointment.list')}}">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                            Citas
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('admin.users') }}">
                             <i class="fa fa-users" aria-hidden="true"></i>
                             {{ __('views.backend.section.navigation.menu_1_1') }}
