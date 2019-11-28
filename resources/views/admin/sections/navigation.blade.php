@@ -56,6 +56,12 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{route('admin.turn')}}">
+                            <i class="fa fa-address-card" aria-hidden="true"></i>
+                            Turno
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('admin.users') }}">
                             <i class="fa fa-users" aria-hidden="true"></i>
                             {{ __('views.backend.section.navigation.menu_1_1') }}

@@ -5,26 +5,23 @@
 @section('content')
 <div class="row">
     <div class="x_content">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a href="" class="nav-link">Turnos</a>
+            </li>
+            <li class="nav-item">
+                <a href="" class="nav-link">Consultas</a>
+            </li>
+            <li class="nav-item">
+                <a href="" class="nav-link">Citas</a>
+            </li>
+            <li class="nav-item">
+                <a href="" class="nav-link">Pacientes</a>
+            </li>
+        </ul>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-7"></div>
-    <div class="col-md-5">
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>DUI</th>
-                    <th>Edad</th>
-                    <th>Accion</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-            </tbody>
-        </table>
-    </div>
-</div>
+
+@yield('content_turn')
 
 @endsection

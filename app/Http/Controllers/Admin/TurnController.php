@@ -1,20 +1,33 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Appointment;
+use App\Consultation;
+use App\Http\Controllers\Controller;
+use App\Patient;
 use App\Turn;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TurnController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        try {
+            $turns = Turn::whereBetween('created_at', [Carbon::today(), Carbon::now()])->orderBy('created_at')->get()->load('patient', 'appointment');
+            return view('admin.turn.list', ['turns' => $turns]);
+        } catch (\Exception $ex) {
+            return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
+        }
+    }
+
+    public function consultationList() {
+        try {
+            $consultations = Consultation::whereBetween('created_at', [Carbon::today(), Carbon::now()])->orderBy('created_at')->get();
+        }catch (\Exception $ex) {
+            return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
+        }
     }
 
     /**

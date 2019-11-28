@@ -17,9 +17,11 @@ class CreateConsultationsTable extends Migration
             $table->bigIncrements('id');
             $table->string('speciality', 100);
             $table->unsignedBigInteger('turn_id');
+            $table->unsignedBigInteger('status_id');
             $table->timestamps();
 
             $table->foreign('turn_id')->references('id')->on('turns')->onDelete('cascade');
+            $table->foreign('status_id')->references('id')->on('consultation_statuses')->onDelete('cascade');
         });
     }
 
