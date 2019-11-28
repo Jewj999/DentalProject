@@ -58,7 +58,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('pacientes/{id}', 'PacienteController@show')->name('pacientes.show');
 
     //Services
-    Route::get('servicios', 'ServiceController@list')->name('servicios.list');
+    Route::get('servicios/list', 'ServiceController@list')->name('servicios.list');
+    Route::get('servicios/new', 'ServiceController@new')->name('servicios.new');
+    Route::post('servicios', 'ServiceController@create')->name('servicios.create');
+
 
     //Users
     Route::get('users', 'UserController@index')->name('users');

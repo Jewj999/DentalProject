@@ -46,7 +46,6 @@ class PacienteController extends Controller
             ]);
 
             if ($v->fails()) {
-                dd($v->errors());
                 return redirect()->back()->withErrors($v->errors());
             }
 
