@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DetailConsultationJob extends Model
+class DetailConsultationService extends Model
 {
     //
 }

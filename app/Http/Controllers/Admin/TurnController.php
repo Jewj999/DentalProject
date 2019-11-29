@@ -22,16 +22,38 @@ class TurnController extends Controller
         }
     }
 
-    public function consultationList()
+    public function patientList()
     {
         try {
-            $consultations = Consultation::whereBetween('created_at', [Carbon::today(), Carbon::now()])->orderBy('created_at')->get();
-            return view('admin.turn.consultation', ['consultations' => $consultations]);
+            $patients = Patient::all()->load('sex');
+            return view('admin.turn.search', compact('patients'));
         } catch (\Exception $ex) {
             return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
         }
     }
 
+    public function nextPatient($patient_id)
+    {
+        try {
+            $patient = Patient::find($patient_id);
+            if ($patient == null) {
+                return view('error', ['code'=>404, 'message'=>'Patient not found']);
+            } else {
+                $appointments = Appointment::where('day', Carbon::now()->format('Y-m-d'))->get();
+                if (count($appointments)) {
+
+                } else {
+                    $turn = new Turn();
+                    $turn->patient_id = $patient->id;
+                    $turn->save();
+
+                    return redirect()->route('admin.turn');
+                }
+            }
+        } catch (\Exception $ex) {
+            return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *

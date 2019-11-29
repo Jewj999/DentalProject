@@ -14,6 +14,9 @@ class ConsultationStatusesTableSeeder extends Seeder
     {
         DB::table('consultation_statuses')->insert([
             [
+                'name' => 'Realizando'
+            ],
+            [
                 'name' => 'Realizada'
             ],
             [

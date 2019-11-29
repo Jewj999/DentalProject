@@ -1,41 +1,57 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Consultation;
+use App\Http\Controllers\Controller;
+use App\Turn;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ConsultationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        try {
+            $consultations = Consultation::whereBetween('created_at', [Carbon::today(), Carbon::now()])->where('status_id', '!=', 1)->orderBy('created_at')->get()->load('services');
+            foreach ($consultations as $consultation) {
+                $total = 0;
+                foreach ($consultation->services as $service) {
+                    $total += $service->price;
+                }
+                $consultation->price = $total;
+            }
+            return view('admin.turn.consultation', ['consultations' => $consultations]);
+        } catch (\Exception $ex) {
+            return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store($turn_id)
     {
-        //
+        try {
+            $turn = Turn::find($turn_id);
+            if ($turn == null) {
+                return view('error', ['code' => 404, 'message' => 'Turn not found']);
+            } else {
+                $consultation = new Consultation();
+                $consultation->speciality = '';
+                $consultation->turn_id = $turn->id;
+                $consultation->status_id = 1;
+                $consultation->save();
+
+                $turn->delete();
+
+                return redirect()->route('admin.turn');
+            }
+        } catch (\Exception $ex) {
+            return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
+        }
     }
 
     /**

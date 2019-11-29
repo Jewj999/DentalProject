@@ -81,7 +81,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Turn
     Route::get('turn', 'TurnController@index')->name('turn');
-    Route::get('turn/consultation', 'TurnController@consultationList')->name('turn.consultation');
+    Route::get('turn/patient', 'Turncontroller@patientList')->name('turn.patient');
+    Route::get('turn/next/{patient_id}', 'TurnController@nextPatient')->name('turn.next');
+
+    // Consultation
+    Route::get('consultation/{turn_id}', 'ConsultationController@store')->name('consultation');
+    Route::get('turn/consultation', 'ConsultationController@index')->name('turn.consultation');
 });
 
 Route::get('/', 'HomeController@index');
