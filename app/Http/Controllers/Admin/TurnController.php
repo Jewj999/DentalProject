@@ -22,10 +22,12 @@ class TurnController extends Controller
         }
     }
 
-    public function consultationList() {
+    public function consultationList()
+    {
         try {
             $consultations = Consultation::whereBetween('created_at', [Carbon::today(), Carbon::now()])->orderBy('created_at')->get();
-        }catch (\Exception $ex) {
+            return view('admin.turn.consultation', ['consultations' => $consultations]);
+        } catch (\Exception $ex) {
             return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
         }
     }
