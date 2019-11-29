@@ -1,9 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Department;
 use App\Service;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Sexe;
+use Illuminate\Support\Facades\Validator;
 
 class ServiceController extends Controller
 {
@@ -17,69 +21,47 @@ class ServiceController extends Controller
         //
     }
 
+    public function new(Request $request)
+    {
+
+        $sexes = Sexe::all();
+        $dptos = Department::all();
+        return view('admin.services.nuevo', ["dptos" => $dptos, "sexes" => $sexes]);
+    }
+
+    public function list(Request $request)
+    {
+        // return view('admin.pacientes.listado', ["patients" => Patient::with('gender')->sortable(['name', 'apellido'])->paginate()]);
+
+        $services = Service::sortable(['name', 'apellido'])->paginate();
+        return view('admin.services.listado', ["services" => $services]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
-    }
+        try {
+            $v = Validator::make($request->all(), [
+                "nameField" => "required",
+                "priceField" => "required"
+            ]);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+            if ($v->fails()) {
+                return redirect()->back()->withErrors($v->errors());
+            }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Service  $service
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Service $service)
-    {
-        //
-    }
+            $servicio = new Service();
+            $servicio->name = $request->nameField;
+            $servicio->price = $request->priceField;
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Service  $service
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Service $service)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Service  $service
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Service $service)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Service  $service
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Service $service)
-    {
-        //
+            $servicio->save();
+            return redirect()->route('admin.servicios.list', ["create_success" => "Se ha creado correctament"]);
+        } catch (\Exception $e) {
+            return view('error', ['code' => 500, 'message' => $e->getMessage()]);
+        }
     }
 }

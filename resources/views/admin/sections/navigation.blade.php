@@ -44,7 +44,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.servicios.create') }}">
+                        <a href="{{ route('admin.servicios.list') }}">
                             <i class="fa fa-check-square" aria-hidden="true"></i>
                             Servicios
                         </a>

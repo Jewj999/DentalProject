@@ -52,14 +52,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Dashboard
     Route::get('/', 'DashboardController@index')->name('dashboard');
-
     Route::post('pacientes', 'PacienteController@create')->name('pacientes.create');
     Route::get('pacientes/new', 'PacienteController@new')->name('pacientes.new');
     Route::get('pacientes/list', 'PacienteController@list')->name('pacientes.list');
     Route::get('pacientes/{id}', 'PacienteController@show')->name('pacientes.show');
 
     //Services
-    Route::get('servicios', 'ServicioController@create')->name('servicios.create');
+    Route::get('servicios/list', 'ServiceController@list')->name('servicios.list');
+    Route::get('servicios/new', 'ServiceController@new')->name('servicios.new');
+    Route::post('servicios', 'ServiceController@create')->name('servicios.create');
+
 
     //Users
     Route::get('users', 'UserController@index')->name('users');
