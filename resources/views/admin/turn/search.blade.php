@@ -2,6 +2,9 @@
 
 @section('content_turn')
 <div class="row">
+    <h1 class="text-center">Lista de pacientes</h1>
+</div>
+<div class="row">
     <div class="x_content">
         <div class="col-md-12 col-sm-12">
             <div class="row">

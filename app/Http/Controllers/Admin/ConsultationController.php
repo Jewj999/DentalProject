@@ -20,6 +20,11 @@ class ConsultationController extends Controller
                     $total += $service->price;
                 }
                 $consultation->price = $total;
+                $turn = Turn::onlyTrashed()->where('id', $consultation->turn_id)->first()->load('patient');
+                $consultation->turn = $turn;
+                // Get age
+                $age = date_diff(new Carbon($consultation->turn->patient->born), Carbon::now());
+                $consultation->turn->patient->age = $age->format('%y');
             }
             return view('admin.turn.consultation', ['consultations' => $consultations]);
         } catch (\Exception $ex) {
