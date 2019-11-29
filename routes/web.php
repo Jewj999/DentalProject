@@ -76,10 +76,19 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('dashboard/log-chart', 'DashboardController@getLogChartData')->name('dashboard.log.chart');
     Route::get('dashboard/registration-chart', 'DashboardController@getRegistrationChartData')->name('dashboard.registration.chart');
 
-    //Appointment
+    // Appointment
     Route::get('appointment', 'AppointmentController@index')->name('appointment.list');
     Route::get('appointment/create/{patient_id}', 'AppointmentController@create')->name('appointment.create');
     Route::post('appointment', 'AppointmentController@store')->name('appointment');
+
+    // Turn
+    Route::get('turn', 'TurnController@index')->name('turn');
+    Route::get('turn/patient', 'Turncontroller@patientList')->name('turn.patient');
+    Route::get('turn/next/{patient_id}', 'TurnController@nextPatient')->name('turn.next');
+
+    // Consultation
+    Route::get('consultation/{turn_id}', 'ConsultationController@store')->name('consultation');
+    Route::get('turn/consultation', 'ConsultationController@index')->name('turn.consultation');
 });
 
 Route::get('/', 'HomeController@index');
@@ -88,7 +97,7 @@ Route::get('/', 'HomeController@index');
  * Membership
  */
 Route::group(['as' => 'protection.'], function () {
-    Route::get('membership', 'MembershipController@index')->name('membership')->middleware('protection:' . config('protection.membership.product_module_number') . ',protection.membership.failed');
+    Route::get('membership', 'MembershipController@index')->name('membership')->middleware('protection:' . config('protection.membership.product_module_number') . 'protection.membership.failed');
     Route::get('membership/access-denied', 'MembershipController@failed')->name('membership.failed');
     Route::get('membership/clear-cache/', 'MembershipController@clearValidationCache')->name('membership.clear_validation_cache');
 });
