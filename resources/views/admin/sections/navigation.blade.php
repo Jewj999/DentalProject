@@ -79,6 +79,13 @@
                             {{ __('views.backend.section.navigation.menu_1_2') }}
                         </a>
                     </li>
+                    <li>
+                        <a href="{{route('admin.report')}}">
+                            <i class="fa fa-archive" aria-hidden="true"></i>
+                            Reporteria
+                        </a>
+                    </li>
+
                 </ul>
             </div>
         </div>

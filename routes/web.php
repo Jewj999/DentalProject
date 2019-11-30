@@ -93,6 +93,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Consultation
     Route::get('consultation/{turn_id}', 'ConsultationController@store')->name('consultation');
     Route::get('turn/consultation', 'ConsultationController@index')->name('turn.consultation');
+
+    // Report
+    Route::get('report', 'ReportController@index')->name('report');
 });
 
 Route::get('/', 'HomeController@index');
