@@ -38,25 +38,25 @@
                                 <td>{{$patient->sex->name}}</td>
                                 <td id="acciones">
                                     <a class="btn btn-primary"
-                                       href="{{ route('admin.pacientes.show', [$patient->id]) }}" data-toggle="tooltip"
-                                       data-placement="top" data-title="Expediente">
+                                        href="{{ route('admin.pacientes.show', [$patient->id]) }}" data-toggle="tooltip"
+                                        data-placement="top" data-title="Expediente">
                                         <i class="fa fa-eye"></i>
                                     </a>
-                                    <a class="btn btn-info"
-                                       href="{{ route('admin.users.edit', [$patient->id]) }}" data-toggle="tooltip"
-                                       data-placement="top" data-title="Editar">
+                                    <a class="btn btn-info" href="{{ route('admin.pacientes.edit', [$patient->id]) }}"
+                                        data-toggle="tooltip" data-placement="top" data-title="Editar">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    <a class="btn btn-danger user_destroy"
-                                       href="{{ route('admin.users.edit', [$patient->id]) }}" data-toggle="tooltip"
-                                       data-placement="top" data-title="{{ __('views.admin.users.index.edit') }}">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                    <a class="btn btn-primary" href="{{route('admin.appointment.create', [$patient->id])}}">
+                                    <a class="btn btn-primary"
+                                        href="{{route('admin.appointment.create', [$patient->id])}}" data-toggle="tooltip"
+                                        data-placement="top" data-title="Citar">
                                         <i class="fa fa-calendar"></i>
                                     </a>
+                                    <a class="btn btn-danger user_destroy"
+                                        href="{{ route('admin.pacientes.destroy', [$patient->id]) }}" data-toggle="tooltip"
+                                        data-placement="top" data-title="Eliminar">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
                                 </td>
-
                             </tr>
                             @endforeach
                         </tbody>

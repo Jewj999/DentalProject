@@ -7,65 +7,66 @@
         <div class="col-md-12 col-sm-12">
             <div class="row">
                 <div class="x_content">
-                    @if ($errors->any())
-                    <h3>{{$errors}}</h3>
-                    @endif
                     {{Form::open(['route' => ['admin.pacientes.create'], 'method' => 'post', 'class' => 'form-horizontal'])}}
                     @csrf
                     <div class="row d-flex justify-content-center">
                         <div class="col-md-5">
                             <div class="row">
-                                <div class="form-group col-md-12">
-                                    <label for="nameField">Nombres</label>
+                                <div class="form-group col-md-12 has-feedback @error('nameField') has-error @enderror">
+                                    <label class="control-label" for="nameField">Nombres</label>
                                     <input type="text" class="form-control" id="nameField" name="nameField"
-                                        placeholder="Omar Alexander">
+                                        placeholder="Omar Alexander" required>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="bornField">Fecha de nacimiento</label>
-                                    <input type="date" class="form-control" id="bornField" name="bornField">
+                                <div class="form-group col-md-6 has-feedback @error('bornField') has-error @enderror">
+                                    <label class="control-label" for="bornField">Fecha de nacimiento</label>
+                                    <input type="date" class="form-control" id="bornField" name="bornField" required>
+
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label for="duiField">DUI</label>
+                                <div class="form-group col-md-6 has-feedback @error('duiField') has-error @enderror">
+                                    <label class="control-label" for="duiField">DUI</label>
                                     <input type="text" class="form-control" name="duiField" id="duiField"
-                                        placeholder="123456789">
+                                        placeholder="123456789" required>
+
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="bornField">Departamento</label>
-                                    <select class="form-control" name="dptoField" id="">
+                                <div class="form-group col-md-6 has-feedback @error('dptoField') has-error @enderror">
+                                    <label class="control-label" for="bornField">Departamento</label>
+                                    <select class="form-control" name="dptoField" id="" required>
                                         @foreach ($dptos as $dpto)
                                         <option value="{{$dpto->id}}">{{$dpto->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label for="munField">Municipio</label>
-                                    <select class="form-control" name="munField" id="">
+                                <div class="form-group col-md-6 has-feedback @error('munField') has-error @enderror">
+                                    <label class="control-label" for="munField">Municipio</label>
+                                    <select class="form-control" name="munField" id="" required>
                                         <option value="2" selected>Soyapango</option>
                                     </select>
+
                                 </div>
                             </div>
                         </div>
                         <div class="form-group col-md-5">
                             <div class="row">
-                                <div class="form-group col-md-12">
-                                    <label for="lastNameField">Apellidos</label>
+                                <div
+                                    class="form-group col-md-12 has-feedback @error('lastNameField') has-error @enderror">
+                                    <label class="control-label" for="lastNameField">Apellidos</label>
                                     <input type="text" class="form-control" id="lastNameField" name="lastNameField"
-                                        placeholder="Lino Cruz">
+                                        placeholder="Lino Cruz" required>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="phoneField">Telefono</label>
+                                <div class="form-group col-md-6 has-feedback @error('phoneField') has-error @enderror">
+                                    <label class="control-label" for="phoneField">Telefono</label>
                                     <input type="text" class="form-control" id="phoneField" name="phoneField"
-                                        placeholder="78871991">
+                                        placeholder="78871991" required>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label for="dptoField">Genero</label>
-                                    <select class="form-control" name="sexField" id="sexField">
+                                <div class="form-group col-md-6 has-feedback @error('bornField') has-error @enderror">
+                                    <label class="control-label" for="sexField">Genero</label>
+                                    <select class="form-control" name="sexField" id="sexField" required>
                                         @foreach ($sexes as $sexe)
                                         <option value="{{$sexe->id}}">{{$sexe->name}}</option>
                                         @endforeach
@@ -73,10 +74,10 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12">
-                                    <label for="">Direccion</label>
+                                <div class="col-md-12 has-feedback @error('dirField') has-error @enderror">
+                                    <label class="control-label" for="dirField">Direccion</label>
                                     <input class="form-control" type="text" name="dirField" id=""
-                                        placeholder="Barrio San Esteban, Poligono 4, Casa #12">
+                                        placeholder="Barrio San Esteban, Poligono 4, Casa #12" required>
                                 </div>
                             </div>
                             <br>
