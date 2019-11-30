@@ -6,6 +6,7 @@ use App\Department;
 use App\Http\Controllers\Controller;
 use App\Patient;
 use App\Sexe;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -46,7 +47,7 @@ class PacienteController extends Controller
             ]);
 
             if ($v->fails()) {
-                return redirect()->back()->withErrors($v->errors());
+                return redirect()->back()->withInput($request->all())->withErrors($v->errors());
             }
 
             $paciente = new Patient();
@@ -63,5 +64,48 @@ class PacienteController extends Controller
         } catch (\Exception $e) {
             return view('error', ['code' => 500, 'message' => $e->getMessage()]);
         }
+    }
+
+    public function edit(Patient $patient)
+    {
+        try {
+            return view('admin.pacientes.edit', ['patient' => $patient]);
+        } catch (Exception $e) {
+            return view('error', ['code' => 500, 'message' => $e->getMessage()]);
+        }
+    }
+
+    public function update(Request $request, Patient $patient)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'apellido' => 'required',
+            'born' => 'required',
+            'phone' => 'required',
+            'dui' => 'required',
+            'direction' => 'required',
+        ]);
+
+        if ($validator->fails()) return redirect()->back()->withErrors($validator->errors());
+
+        $patient->name = $request->get('name');
+        $patient->apellido = $request->get('apellido');
+        $patient->born = $request->get('born');
+        $patient->phone = $request->get('phone');
+        $patient->dui = $request->get('dui');
+        $patient->direction = $request->get('direction');
+        $patient->save();
+
+        return redirect()->intended(route('admin.pacientes.list'));
+    }
+
+    public function destroy($id)
+    {
+        $patient = Patient::find($id);
+        if ($patient) {
+            $patient->delete();
+            return redirect()->route('admin.pacientes.list')->withFlashSuccess('Paciente Eliminado');
+        }
+        return redirect()->route('admin.pacientes.list')->withFlashSuccess('Error');
     }
 }

@@ -52,9 +52,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Dashboard
     Route::get('/', 'DashboardController@index')->name('dashboard');
+    Route::get('pacientes', 'PacienteController@list')->name('pacientes.list');
     Route::post('pacientes', 'PacienteController@create')->name('pacientes.create');
+    Route::get('pacientes/{patient}/edit', 'PacienteController@edit')->name('pacientes.edit');
+    Route::put('pacientes/{patient}', 'PacienteController@update')->name('pacientes.update');
+    Route::any('pacientes/{id}/destroy', 'PacienteController@destroy')->name('pacientes.destroy');
+
     Route::get('pacientes/new', 'PacienteController@new')->name('pacientes.new');
-    Route::get('pacientes/list', 'PacienteController@list')->name('pacientes.list');
     Route::get('pacientes/{id}', 'PacienteController@show')->name('pacientes.show');
 
     //Services
