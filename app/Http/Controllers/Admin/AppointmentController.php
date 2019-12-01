@@ -15,7 +15,7 @@ class AppointmentController extends Controller
     public function index()
     {
         try {
-            $appointments = Appointment::all();
+            $appointments = Appointment::with(['patient', 'status'])->get();
             return view('admin.appointment.list', ['data' => $appointments]);
         } catch (\Exception $ex) {
             return view('error', ['code' => 500, 'message' => $ex->getMessage()]);

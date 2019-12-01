@@ -19,7 +19,7 @@ class CreateTurnsTable extends Migration
             $table->unsignedBigInteger('patient_id');
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('cascade');
             $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
         });
