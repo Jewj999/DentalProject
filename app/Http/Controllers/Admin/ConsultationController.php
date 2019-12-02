@@ -33,41 +33,46 @@ class ConsultationController extends Controller
     }
 
     public function create()
-    {
-        //
-    }
+    { }
 
     public function store($turn_id)
     {
         try {
+            $errors = [];
             $turn = Turn::find($turn_id);
             if ($turn == null) {
                 return view('error', ['code' => 404, 'message' => 'Turn not found']);
             } else {
-                $consultation = new Consultation();
-                $consultation->speciality = '';
-                $consultation->turn_id = $turn->id;
-                $consultation->status_id = 1;
-                $consultation->save();
+                $active = Consultation::where('status_id', 1)->count();
+                if ($active == 0) {
+                    $consultation = new Consultation();
+                    $consultation->speciality = '';
+                    $consultation->turn_id = $turn->id;
+                    $consultation->status_id = 1;
+                    $consultation->save();
 
-                $turn->delete();
-
-                return redirect()->route('admin.turn');
+                    $turn->delete();
+                } else {
+                    array_push($errors, 'Ya se encuentra un paciente siendo atendido');
+                }
+                return redirect()->route('admin.turn')->with('errors', $errors);
             }
         } catch (\Exception $ex) {
             return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Consultation  $consultation
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Consultation $consultation)
+    public function show()
     {
-        //
+        try {
+            $consultation = Consultation::where('status_id', 1)->first();
+            if ($consultation != null) {
+                $consultation = $this->fillConsultation($consultation);
+            }
+            return view('admin.consultation.index', ['consultation' => $consultation]);
+        } catch (\Exception $ex) {
+            return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
+        }
     }
 
     /**
@@ -102,5 +107,15 @@ class ConsultationController extends Controller
     public function destroy(Consultation $consultation)
     {
         //
+    }
+
+    private function fillConsultation(Consultation $consultation)
+    {
+        $turn = Turn::onlyTrashed()->where('id', $consultation->turn_id)->first()->load('patient');
+        $consultation->turn = $turn;
+        // Get age
+        $age = date_diff(new Carbon($consultation->turn->patient->born), Carbon::now());
+        $consultation->turn->patient->age = $age->format('%y');
+        return $consultation;
     }
 }

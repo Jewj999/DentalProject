@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Turn extends Model
 {
+    protected $fillable = ['turn_id', 'appointment_id', 'created_at'];
     use SoftDeletes;
 
     public function patient()

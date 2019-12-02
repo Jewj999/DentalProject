@@ -32,23 +32,48 @@ class TurnController extends Controller
         }
     }
 
+    public function appointmentList()
+    {
+        try {
+            $appointments = Appointment::where('status_id', 1)->orderBy('hour')->get();
+        } catch (\Exception $ex) {
+            return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
+        }
+    }
+
     public function nextPatient($patient_id)
     {
         try {
+            $errors = [];
             $patient = Patient::find($patient_id);
             if ($patient == null) {
-                return view('error', ['code'=>404, 'message'=>'Patient not found']);
+                return view('error', ['code' => 404, 'message' => 'Patient not found']);
             } else {
-                $appointments = Appointment::where('day', Carbon::now()->format('Y-m-d'))->get();
-                if (count($appointments)) {
+                $wait = Turn::where('patient_id', $patient->id)->count();
+                if ($wait == 0) {
+                    $appointments = Appointment::where([
+                        ['day', '=', Carbon::now()->format('Y-m-d')],
+                        ['status_id', '=', 1]
+                    ])->get();
+                    if (count($appointments)) {
+                        $appointment = $appointments[0];
+                        $turn = new Turn();
+                        $turn->patient_id = $appointment->patient_id;
+                        $turn->appointment_id = $appointment->id;
+                        $turn->created_at = (new Carbon($appointment->day . ' ' . $appointment->hour));
+                        $turn->save();
 
+                        $appointment->status_id = 2;
+                        $appointment->save();
+                    } else {
+                        $turn = new Turn();
+                        $turn->patient_id = $patient->id;
+                        $turn->save();
+                    }
                 } else {
-                    $turn = new Turn();
-                    $turn->patient_id = $patient->id;
-                    $turn->save();
-
-                    return redirect()->route('admin.turn');
+                    array_push($errors, 'El paciente ya tiene un turno en espera');
                 }
+                return redirect()->route('admin.turn')->with('errors', $errors);
             }
         } catch (\Exception $ex) {
             return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
