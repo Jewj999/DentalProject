@@ -15,7 +15,7 @@ class TurnController extends Controller
     public function index()
     {
         try {
-            $turns = Turn::whereBetween('created_at', [Carbon::today(), Carbon::now()])->orderBy('created_at')->get()->load('patient', 'appointment');
+            $turns = Appointment::whereBetween('day', [Carbon::today(), Carbon::now()])->get();
             return view('admin.turn.list', ['turns' => $turns]);
         } catch (\Exception $ex) {
             return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
