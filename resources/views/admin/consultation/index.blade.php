@@ -6,5 +6,6 @@
 @if($consultation == null)
     Reload
 @else
+
 @endif
 @endsection

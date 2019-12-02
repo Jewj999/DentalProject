@@ -15,11 +15,6 @@ class ConsultationController extends Controller
         try {
             $consultations = Consultation::whereBetween('created_at', [Carbon::today(), Carbon::now()])->where('status_id', '!=', 1)->orderBy('created_at')->get()->load('services');
             foreach ($consultations as $consultation) {
-                $total = 0;
-                foreach ($consultation->services as $service) {
-                    $total += $service->price;
-                }
-                $consultation->price = $total;
                 $turn = Turn::onlyTrashed()->where('id', $consultation->turn_id)->first()->load('patient');
                 $consultation->turn = $turn;
                 // Get age

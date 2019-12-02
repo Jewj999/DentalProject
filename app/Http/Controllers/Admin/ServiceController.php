@@ -47,7 +47,6 @@ class ServiceController extends Controller
         try {
             $v = Validator::make($request->all(), [
                 "nameField" => "required",
-                "priceField" => "required"
             ]);
 
             if ($v->fails()) {
@@ -56,7 +55,6 @@ class ServiceController extends Controller
 
             $servicio = new Service();
             $servicio->name = $request->nameField;
-            $servicio->price = $request->priceField;
 
             $servicio->save();
             return redirect()->route('admin.servicios.list', ["create_success" => "Se ha creado correctament"]);

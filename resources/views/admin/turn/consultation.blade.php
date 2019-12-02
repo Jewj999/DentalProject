@@ -23,7 +23,6 @@
                 <td>{{$consultation->turn->patient->apellido}}</td>
                 <td>{{$consultation->turn->patient->dui}}</td>
                 <td>{{$consultation->turn->patient->age}}</td>
-                <td>${{$consultation->price}}</td>
                 <td>
                     <a href="" class='btn btn-xs btn-primary'>
                         <i class="fa fa-dollar"></i>

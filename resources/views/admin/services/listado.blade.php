@@ -21,7 +21,6 @@
                         <thead>
                             <tr>
                                 <th>@sortablelink('name', 'Nombre', ['page' => $services->currentPage()])</th>
-                                <th>@sortablelink('price', 'Precio', ['page' => $services->currentPage()])</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -29,7 +28,6 @@
                             @foreach ($services as $service)
                             <tr>
                                 <td>{{$service->name}}</td>
-                                <td>{{$service->price}}</td>
                                 <td>
                                     <a class="btn btn-info" href="{{ route('admin.users.edit', [$service->id]) }}"
                                         data-toggle="tooltip" data-placement="top" data-title="Editar">

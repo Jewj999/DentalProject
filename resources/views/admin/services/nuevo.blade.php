@@ -16,15 +16,7 @@
                         <div class="col-md-5">
                             <div class="form-group col-md-12">
                                 <label for="nameField">Nombre</label>
-                                <input type="text" class="form-control" id="nameField" name="nameField"
-                                    placeholder="Limpieza dental">
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="form-group col-md-12">
-                                <label for="nameField">Precio</label>
-                                <input type="text" class="form-control" id="nameField" name="priceField"
-                                    placeholder="19.99">
+                                <input type="text" class="form-control" id="nameField" name="nameField" placeholder="Limpieza dental">
                             </div>
                         </div>
                     </div>

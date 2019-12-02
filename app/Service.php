@@ -9,7 +9,7 @@ use Kyslik\ColumnSortable\Sortable;
 class Service extends Model
 {
     use Sortable;
-    public $sortable = ['name', 'price'];
+    public $sortable = ['name'];
 
     protected $table = "services";
 }
