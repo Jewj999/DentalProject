@@ -1,0 +1,14 @@
+.col-16 {
+    width: 12.5%;
+    float: left;
+}
+.col-16 > img {
+    width: 100%;
+}
+.col-10 {
+    width: 10%;
+    float: left;
+}
+.col-10 > img {
+    width: 100%;
+}
