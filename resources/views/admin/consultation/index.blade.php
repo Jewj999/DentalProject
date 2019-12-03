@@ -30,7 +30,7 @@ Reload
                 </div>
             </div>
         </div>
-        <div class="col-md-10">
+        <div class="col-md-10 text-center">
             <div class="row">
                 <div class="col-md-6">
                     @foreach($tooth as $i => $teeth)
@@ -60,6 +60,8 @@ Reload
                     @endforeach
                 </div>
             </div>
+            <br>
+            <button type="submit" class="btn btn-lg btn-primary">Terminar</button>
         </div>
     </div>
 </form>
