@@ -96,6 +96,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('consultation', 'ConsultationController@show')->name('consultation.active');
     // Report
     Route::get('report', 'ReportController@index')->name('report');
+
+    //Audits
+    Route::get('audits', 'AuditController@index')->name('audits');
 });
 
 Route::get('/', 'HomeController@index');

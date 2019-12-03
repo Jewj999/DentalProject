@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Log;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
@@ -65,7 +66,7 @@ class LoginController extends Controller
      * Get the failed login response instance.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponseu
      */
     protected function sendFailedLoginResponse(Request $request)
     {
@@ -106,6 +107,12 @@ class LoginController extends Controller
                 ->withInput($request->only($this->username(), 'remember'))
                 ->withErrors($errors);
         }
+
+        Log::create([
+            "ip" => $request->ip(),
+            "action" => "Login\n",
+            "user_id" => $user->id
+        ]);
 
         return redirect()->intended($this->redirectPath());
     }

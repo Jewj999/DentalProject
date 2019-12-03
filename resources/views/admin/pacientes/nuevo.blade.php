@@ -34,7 +34,7 @@
                             <div class="row">
                                 <div class="form-group col-md-6 has-feedback @error('dptoField') has-error @enderror">
                                     <label class="control-label" for="bornField">Departamento</label>
-                                    <select class="form-control" name="dptoField" id="" required>
+                                    <select class="form-control" name="dptoField" id="dptoField" required>
                                         @foreach ($dptos as $dpto)
                                         <option value="{{$dpto->id}}">{{$dpto->name}}</option>
                                         @endforeach
@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="form-group col-md-6 has-feedback @error('munField') has-error @enderror">
                                     <label class="control-label" for="munField">Municipio</label>
-                                    <select class="form-control" name="munField" id="" required>
+                                    <select class="form-control" name="munField" id="munField" required>
                                         <option value="2" selected>Soyapango</option>
                                     </select>
 
@@ -98,6 +98,21 @@
 
 @section('scripts')
 @parent
+<script>
+    $("#dptoField").change(function() {
+        $.ajax({
+            type: 'GET',
+            url : `/laravel-boilerplate/public/api/${$(this).val()}/municipalities`,
+            success : function(res){
+                let app = '';
+                for(let v of res){
+                    app+= `<option value="${v.id}">${v.name}</option>`
+                }
+                $('#munField').append(app);
+            }
+        })
+    });
+</script>
 @endsection
 
 @section('styles')

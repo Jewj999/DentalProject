@@ -29,6 +29,8 @@
 
     {{--Common Scripts--}}
     {{ Html::script(mix('assets/app/js/app.js')) }}
+    {{Html::script('assets/jquery.js')}}
+
 
     {{--Laravel Js Variables--}}
     @tojs
