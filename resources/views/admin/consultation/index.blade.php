@@ -34,33 +34,32 @@ Reload
             <div class="row">
                 <div class="col-md-6">
                     @foreach($tooth as $i => $teeth)
-                        @if($i < 32)
-                            <div class="col-16 text-center">
-                                <label>{{$teeth->name}}</label><br>
-                                <img src="{{asset('assets/' . $teeth->img)}}" alt="{{$teeth->name}}">
-                            </div>
-                            @if((($i+1) % 8) == 0)
-                                </div>
-                                <div class="col-md-6">
-                            @endif
-                        @endif
-                    @endforeach
+                    @if($i < 32) <div class="col-16 text-center">
+                        <label>{{$teeth->name}}</label><br>
+                        <img src="{{asset('assets/' . $teeth->img)}}" alt="{{$teeth->name}}">
                 </div>
+                @if((($i+1) % 8) == 0)
             </div>
-            <br>
-            <div class="row">
-                <div class="col-md-6 col-md-offset-3">
-                    @foreach($tooth as $i => $teeth)
-                        @if($i > 31)
-                            <div class="col-10 text-center">
-                                <label>{{$teeth->name}}</label><br>
-                                <img src="{{asset('assets/' . $teeth->img)}}" alt="{{$teeth->name}}">
-                            </div>
-                        @endif
-                    @endforeach
-                </div>
+            <div class="col-md-6">
+                @endif
+                @endif
+                @endforeach
             </div>
         </div>
+        <br>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                @foreach($tooth as $i => $teeth)
+                @if($i > 31)
+                <div class="col-10 text-center">
+                    <label>{{$teeth->name}}</label><br>
+                    <img src="{{asset('assets/' . $teeth->img)}}" alt="{{$teeth->name}}">
+                </div>
+                @endif
+                @endforeach
+            </div>
+        </div>
+    </div>
     </div>
 </form>
 @endif
