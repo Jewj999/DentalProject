@@ -32,6 +32,12 @@
                             {{ __('views.backend.section.navigation.menu_0_1') }}
                         </a>
                     </li>
+                    <li>
+                        <a href="{{route('admin.consultation.active')}}">
+                            <i class="fa fa-bell"></i>
+                            Atender
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="menu_section">

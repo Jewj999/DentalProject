@@ -21,5 +21,16 @@ class UtilsSeeder extends Seeder
         ];
 
         DB::table('sexes')->insert($sexes);
+
+        $statuses = [
+            [
+                "name" => "Citada"
+            ],
+            [
+                "name" => "Cancelada"
+            ]
+        ];
+
+        DB::table('statuses')->insert($statuses);
     }
 }

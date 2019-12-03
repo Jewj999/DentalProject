@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Consultation;
 use App\Http\Controllers\Controller;
+use App\Job;
+use App\Service;
+use App\Tooth;
 use App\Turn;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -64,7 +67,10 @@ class ConsultationController extends Controller
             if ($consultation != null) {
                 $consultation = $this->fillConsultation($consultation);
             }
-            return view('admin.consultation.index', ['consultation' => $consultation]);
+            $services = Service::all();
+            $jobs = Job::all();
+            $tooth = Tooth::all();
+            return view('admin.consultation.index', ['consultation' => $consultation, 'services' => $services, 'jobs' => $jobs, 'tooth' => $tooth]);
         } catch (\Exception $ex) {
             return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
         }
