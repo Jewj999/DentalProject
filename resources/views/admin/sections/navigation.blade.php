@@ -1,21 +1,15 @@
 <div class="col-md-3 left_col">
     <div class="left_col scroll-view">
-        <div class="navbar nav_title" style="border: 0;">
-            <a href="{{ route('admin.dashboard') }}" class="site_title">
-                <span>{{ config('app.name') }}</span>
-            </a>
-        </div>
+
 
         <div class="clearfix"></div>
 
         <!-- menu profile quick info -->
         <div class="profile clearfix">
-            <div class="profile_pic">
-                <img src="{{ auth()->user()->avatar }}" alt="..." class="img-circle profile_img">
+            <div class="">
+                <img src="{{asset('assets/clin.jpeg')}}" alt="..." class="clin_img">
             </div>
-            <div class="profile_info">
-                <h2>{{ auth()->user()->name }}</h2>
-            </div>
+
         </div>
         <!-- /menu profile quick info -->
 
@@ -103,3 +97,14 @@
         <!-- /sidebar menu -->
     </div>
 </div>
+
+
+@section('styles')
+@parent
+
+<style>
+    .clin_img {
+        max-width: 100%;
+    }
+</style>
+@endsection
