@@ -65,6 +65,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('servicios/list', 'ServiceController@list')->name('servicios.list');
     Route::get('servicios/new', 'ServiceController@new')->name('servicios.new');
     Route::post('servicios', 'ServiceController@create')->name('servicios.create');
+    Route::get('servicios/{service}/edit', 'ServiceController@edit')->name('servicios.edit');
+    Route::put('servicios/{service}', 'ServiceController@update')->name('servicios.update');
+    Route::any('servicios/{id}/destroy', 'ServiceController@destroy')->name('servicios.destroy');
 
 
     //Users

@@ -108,7 +108,7 @@
                 for(let v of res){
                     app+= `<option value="${v.id}">${v.name}</option>`
                 }
-                $('#munField').append(app);
+                $('#munField').empty().append(app);
             }
         })
     });

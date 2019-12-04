@@ -62,4 +62,36 @@ class ServiceController extends Controller
             return view('error', ['code' => 500, 'message' => $e->getMessage()]);
         }
     }
+
+    public function edit(Service $service)
+    {
+        try {
+            return view('admin.services.edit', ['service' => $service]);
+        } catch (Exception $e) {
+            return view('error', ['code' => 500, 'message' => $e->getMessage()]);
+        }
+    }
+
+    public function update(Request $request, Service $service)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255'
+        ]);
+
+        if ($validator->fails()) return redirect()->back()->withErrors($validator->errors());
+
+        $service->name = $request->get('name');
+        $service->save();
+        return redirect()->intended(route('admin.servicios.list'))->withFlashSuccess('Editado');
+    }
+
+    public function destroy($id)
+    {
+        $patient = Patient::find($id);
+        if ($patient) {
+            $patient->delete();
+            return redirect()->route('admin.services.list')->withFlashSuccess('Paciente Eliminado');
+        }
+        return redirect()->route('admin.services.list')->withFlashSuccess('Error');
+    }
 }
