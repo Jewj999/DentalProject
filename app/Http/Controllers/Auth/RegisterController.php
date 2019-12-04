@@ -103,8 +103,7 @@ class RegisterController extends Controller
 
         $this->guard()->login($user);
 
-        return $this->registered($request, $user)
-            ?: redirect($this->redirectPath());
+        return redirect(route('login'));
     }
 
     /**
@@ -114,15 +113,4 @@ class RegisterController extends Controller
      * @param  mixed $user
      * @return mixed
      */
-    protected function registered(Request $request, $user)
-    {
-        if (config('auth.users.confirm_email') && !$user->confirmed) {
-
-            $this->guard()->logout();
-
-            $user->notify(new ConfirmEmail());
-
-            return redirect(route('login'));
-        }
-    }
 }
