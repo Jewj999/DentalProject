@@ -91,7 +91,12 @@
                             Reporteria
                         </a>
                     </li>
-
+                    <li>
+                        <a href="{{route('admin.logs.list')}}">
+                            <i class="fa fa-archive" aria-hidden="true"></i>
+                            Auditoria
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
