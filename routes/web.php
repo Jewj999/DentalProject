@@ -97,6 +97,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('consultation/{turn_id}', 'ConsultationController@store')->name('consultation');
     Route::get('turn/consultation', 'ConsultationController@index')->name('turn.consultation');
     Route::get('consultation', 'ConsultationController@show')->name('consultation.active');
+    Route::post('consultation', 'ConsultationController@update')->name('consultation.update');
+
     // Report
     Route::get('report', 'ReportController@index')->name('report');
 

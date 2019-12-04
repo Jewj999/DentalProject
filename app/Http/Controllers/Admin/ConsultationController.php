@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Consultation;
+use App\DetailToothConsultation;
 use App\Http\Controllers\Controller;
 use App\Job;
 use App\Service;
@@ -10,6 +11,7 @@ use App\Tooth;
 use App\Turn;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ConsultationController extends Controller
 {
@@ -63,51 +65,96 @@ class ConsultationController extends Controller
     public function show()
     {
         try {
-            $consultation = Consultation::where('status_id', 1)->first();
-            if ($consultation != null) {
-                $consultation = $this->fillConsultation($consultation);
-            }
             $services = Service::all();
             $jobs = Job::all();
             $tooth = Tooth::all();
+            $consultation = Consultation::where('status_id', 1)->first();
+            if ($consultation != null) {
+                $consultation = $this->fillConsultation($consultation);
+                $details = DetailToothConsultation::where('consultation_id', $consultation->id)->select('tooth_id')->get();
+                $teeth = [];
+                foreach ($details as $detail) {
+                    array_push($teeth, $detail->tooth_id);
+                }
+                foreach ($tooth as $toothSingle) {
+                    if (in_array($toothSingle->id, $teeth)) {
+                        $toothSingle->job = true;
+                    }
+                }
+            }
             return view('admin.consultation.index', ['consultation' => $consultation, 'services' => $services, 'jobs' => $jobs, 'tooth' => $tooth]);
         } catch (\Exception $ex) {
             return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Consultation  $consultation
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Consultation $consultation)
+    public function update(Request $request)
     {
-        //
+        try {
+            echo ('si');
+            die();
+        } catch (\Exception $ex) {
+            return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Consultation  $consultation
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Consultation $consultation)
+    // API routes
+    public function saveJob(Request $request)
     {
-        //
+        try {
+            $validator = Validator::make($request->all(), [
+                'teeth' => 'required|exists:teeth,id',
+                'consultation' => 'required|exists:consultations,id',
+                'jobs' => 'array'
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => 'Some errors found',
+                    'blob' => $validator->errors()->all()
+                ], 400);
+            } else {
+                $detail = DetailToothConsultation::where([
+                    ['consultation_id', '=', $request->consultation],
+                    ['tooth_id', '=', $request->teeth]
+                ])->delete();
+                $changed = count($request->jobs);
+                foreach ($request->jobs as $job) {
+                    $detailJob = new DetailToothConsultation();
+                    $detailJob->tooth_id = $request->teeth;
+                    $detailJob->consultation_id = $request->consultation;
+                    $detailJob->job_id = $job;
+                    $detailJob->save();
+                }
+                return response()->json([
+                    'message' => 'Jobs saved',
+                    'blob' => $changed
+                ]);
+            }
+        } catch (\Exception $ex) {
+            return response()->json([
+                'message' => $ex->getMessage(),
+                'blob' => []
+            ], 500);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Consultation  $consultation
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Consultation $consultation)
+    public function getJob($consultation_id, $tooth_id)
     {
-        //
+        try {
+            $details = DetailToothConsultation::where([
+                ['consultation_id', '=', $consultation_id],
+                ['tooth_id', '=', $tooth_id]
+            ])->get();
+            return response()->json([
+                'message' => 'Detail getted',
+                'blob' => $details
+            ]);
+        } catch (\Exception $ex) {
+            return response()->json([
+                'message' => $ex->getMessage(),
+                'blob' => []
+            ], 500);
+        }
     }
 
     private function fillConsultation(Consultation $consultation)

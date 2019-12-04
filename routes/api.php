@@ -19,3 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('{dpto}/municipalities', 'Admin\MunicipalityController@list');
+Route::post('job', 'Admin\ConsultationController@saveJob');
+Route::get('detail/{consultation_id}/{tooth_id}', 'Admin\ConsultationController@getJob');

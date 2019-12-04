@@ -10,7 +10,11 @@
 @if($consultation == null)
 Reload
 @else
-<form action="" method='POST'>
+<form action="{{route('admin.consultation.update')}}" method='POST'>
+    <button type="submit">Hi</button>
+</form>
+<form>
+    <input type="hidden" id='consultation' value="{{$consultation->id}}">            
     <div class="row">
         <div class="col-md-2">
             <div class="row">
@@ -34,35 +38,44 @@ Reload
             <div class="row">
                 <div class="col-md-6">
                     @foreach($tooth as $i => $teeth)
-                    @if($i < 32) <div class="col-16 text-center" onclick="clickTeeth({{$teeth->id}})">
-                        <label>{{$teeth->name}}</label><br>
-                        <img src="{{asset('assets/' . $teeth->img)}}" alt="{{$teeth->name}}">
+                        @if($i < 32) 
+                            <div class="col-16 text-center" onclick="clickTeeth({{$teeth->id}}, {{$teeth->name}})">
+                                @if($teeth->job)
+                                    <label id="{{$teeth->id}}" style='color: red;'>{{$teeth->name}}</label>
+                                @else
+                                    <label id="{{$teeth->id}}">{{$teeth->name}}</label>
+                                @endif
+                                <br>
+                                <img src="{{asset('assets/' . $teeth->img)}}" alt="{{$teeth->name}}">
+                            </div>
+                            @if((($i+1) % 8) == 0)
+                                </div><div class="col-md-6">
+                            @endif
+                        @endif
+                    @endforeach
                 </div>
-                @if((($i+1) % 8) == 0)
+                <br>
             </div>
-            <div class="col-md-6">
-                @endif
-                @endif
-                @endforeach
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                @foreach($tooth as $i => $teeth)
-                @if($i > 31)
-                <div class="col-10 text-center" onclick="clickTeeth({{$teeth->id}})">
-                    <label>{{$teeth->name}}</label><br>
-                    <img src="{{asset('assets/' . $teeth->img)}}" alt="{{$teeth->name}}">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    @foreach($tooth as $i => $teeth)
+                        @if($i > 31)
+                            <div class="col-10 text-center" onclick="clickTeeth({{$teeth->id}}, {{$teeth->name}})">
+                                @if($teeth->job)
+                                    <label id="{{$teeth->id}}" style='color: red;'>{{$teeth->name}}</label>
+                                @else
+                                    <label id="{{$teeth->id}}">{{$teeth->name}}</label>
+                                @endif
+                                <br>
+                                <img src="{{asset('assets/' . $teeth->img)}}" alt="{{$teeth->name}}">
+                            </div>
+                        @endif
+                    @endforeach
                 </div>
-                @endif
-                @endforeach
             </div>
+            <br>
+            <button type="submit" class="btn btn-lg btn-primary">Terminar</button>
         </div>
-        <br>
-        <button type="submit" class="btn btn-lg btn-primary">Terminar</button>
-    </div>
-    </div>
     </div>
 </form>
 @endif
@@ -97,8 +110,71 @@ Reload
 @parent
 {{Html::script('assets/jquery.js')}}
 {{Html::script('assets/bootstrap.min.js')}}
-{{Html::script('assets/teeth.js')}}
-{{Html::script('assets/tooth.js')}}
+<script>
+    $(document).ready(function() {
+        $('#myModal').on('hidden.bs.modal', function() {
+            // Clean checked
+            $.each($('input[name="job"]'), function() {
+                $(this).prop('checked', false);
+            });
+        });
+    });
+
+    function clickTeeth(id, name) {
+        $('#myModal').modal('show');
+        $('#myInput').val(id);
+        var consultation = $('#consultation').val();
+        $('#myModalLabel').text('Diente ' + name);
+        $.ajax({
+            type: 'GET',
+            url: "{{url('/api/detail')}}" + '/' + consultation + '/' + id,
+            success: function(data) {
+                data.blob.forEach(function(job) {
+                    $.each($('input[name="job"]'), function() {
+                        if ($(this).val() == job.job_id) {
+                            $(this).prop('checked', true);
+                        }
+                    });
+                });
+            },
+            error: function(data) {
+                console.log(data.message);
+            }
+        })
+    }
+
+    function saveJob() {
+        var jobs = [];
+        var consultation = $('#consultation').val();
+        var teeth = $('#myInput').val();
+        $.each($('input[name="job"]:checked'), function() {
+            jobs.push($(this).val());
+        });
+        $.ajax({
+            type: 'POST',
+            url: "{{url('/api/job')}}",
+            contentType: 'application/json',
+            data: JSON.stringify({
+                teeth: teeth,
+                consultation: consultation,
+                jobs: jobs
+            }),
+            success: function(data) {
+                // Close modal
+                $('#myModal').modal('hide');
+                let id = '#' + teeth;
+                if (data.blob > 0) {
+                    $(id).css('color', 'red');
+                } else {
+                    $(id).css('color', '#73879c');
+                }
+            },
+            error: function(data) {
+                console.log(data.message)
+            }
+        })
+    }
+</script>
 @endsection
 
 @section('styles')
