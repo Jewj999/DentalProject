@@ -63,6 +63,7 @@ Reload
         <button type="submit" class="btn btn-lg btn-primary">Terminar</button>
     </div>
     </div>
+    </div>
 </form>
 @endif
 

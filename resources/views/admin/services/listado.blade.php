@@ -29,12 +29,12 @@
                             <tr>
                                 <td>{{$service->name}}</td>
                                 <td>
-                                    <a class="btn btn-info" href="{{ route('admin.users.edit', [$service->id]) }}"
+                                    <a class="btn btn-info" href="{{ route('admin.servicios.edit', [$service->id]) }}"
                                         data-toggle="tooltip" data-placement="top" data-title="Editar">
                                         <i class="fa fa-pencil"></i>
                                     </a>
                                     <a class="btn btn-danger user_destroy"
-                                        href="{{ route('admin.users.edit', [$service->id]) }}" data-toggle="tooltip"
+                                        href="{{ route('admin.servicios.edit', [$service->id]) }}" data-toggle="tooltip"
                                         data-placement="top" data-title="{{ __('views.admin.users.index.edit') }}">
                                         <i class="fa fa-trash"></i>
                                     </a>

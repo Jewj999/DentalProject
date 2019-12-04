@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Municipality;
 use Illuminate\Http\Request;
 
@@ -17,6 +18,10 @@ class MunicipalityController extends Controller
         //
     }
 
+    public function list($id)
+    {
+        return response()->json(Municipality::where('department_id', $id)->get());
+    }
     /**
      * Show the form for creating a new resource.
      *

@@ -38,7 +38,7 @@
                                 <td>{{$patient->sex->name}}</td>
                                 <td id="acciones">
                                     <a class="btn btn-primary"
-                                        href="{{ route('admin.pacientes.show', [$patient->id]) }}" data-toggle="tooltip"
+                                        href="#" data-toggle="tooltip"
                                         data-placement="top" data-title="Expediente">
                                         <i class="fa fa-eye"></i>
                                     </a>
@@ -61,6 +61,9 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="modal fade modal-confirm-delete">
+
+                    </div>
                 </div>
             </div>
         </div>
