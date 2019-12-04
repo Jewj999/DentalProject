@@ -8,76 +8,91 @@
     </div>
 </div>
 @if($consultation == null)
-Reload
-@else
-<form action="{{route('admin.consultation.update')}}" method='POST'>
-    <button type="submit">Hi</button>
-</form>
-<form>
-    <input type="hidden" id='consultation' value="{{$consultation->id}}">            
     <div class="row">
-        <div class="col-md-2">
-            <div class="row">
-                <div class="col-sm-12">
-                    <fieldset>
-                        <legend>Servicios:</legend>
-                        <div class="row">
-                            @foreach($services as $service)
-                            <div class="col-sm-12 form-group">
-                                <label>
-                                    <input type="checkbox" name="service" value="{{$service->id}}">{{$service->name}}
-                                </label>
-                            </div>
-                            @endforeach
-                        </div>
-                    </fieldset>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-10 text-center">
-            <div class="row">
-                <div class="col-md-6">
-                    @foreach($tooth as $i => $teeth)
-                        @if($i < 32) 
-                            <div class="col-16 text-center" onclick="clickTeeth({{$teeth->id}}, {{$teeth->name}})">
-                                @if($teeth->job)
-                                    <label id="{{$teeth->id}}" style='color: red;'>{{$teeth->name}}</label>
-                                @else
-                                    <label id="{{$teeth->id}}">{{$teeth->name}}</label>
-                                @endif
-                                <br>
-                                <img src="{{asset('assets/' . $teeth->img)}}" alt="{{$teeth->name}}">
-                            </div>
-                            @if((($i+1) % 8) == 0)
-                                </div><div class="col-md-6">
-                            @endif
-                        @endif
-                    @endforeach
-                </div>
-                <br>
-            </div>
-            <div class="row">
-                <div class="col-md-6 col-md-offset-3">
-                    @foreach($tooth as $i => $teeth)
-                        @if($i > 31)
-                            <div class="col-10 text-center" onclick="clickTeeth({{$teeth->id}}, {{$teeth->name}})">
-                                @if($teeth->job)
-                                    <label id="{{$teeth->id}}" style='color: red;'>{{$teeth->name}}</label>
-                                @else
-                                    <label id="{{$teeth->id}}">{{$teeth->name}}</label>
-                                @endif
-                                <br>
-                                <img src="{{asset('assets/' . $teeth->img)}}" alt="{{$teeth->name}}">
-                            </div>
-                        @endif
-                    @endforeach
-                </div>
-            </div>
-            <br>
-            <button type="submit" class="btn btn-lg btn-primary">Terminar</button>
+        <div class="col-sm-12 text-center">
+        <img src="{{asset('/assets/reload.png')}}" alt="Cuando entre el paciente recarge la pagina">
         </div>
     </div>
-</form>
+@else
+@if(count($errors->all()) != 0)
+<div class="row">
+    <div class="col-sm-12 alert alert-danger">
+        <h4 class="alert-heading">Errores</h4>
+        <ul>
+            @foreach($errors->all() as $error)
+            <li>{{$error}}</li>
+            @endforeach
+        </ul>
+    </div>
+</div>
+@endif
+{{Form::open(['route'=>['admin.consultation.update'], 'method'=> 'post'])}}
+@csrf
+<input type="hidden" id='consultation' name='consultation' value="{{$consultation->id}}">
+<div class="row">
+    <div class="col-md-2">
+        <div class="row">
+            <div class="col-sm-12">
+                <fieldset>
+                    <legend>Servicios:</legend>
+                    <div class="row">
+                        @foreach($services as $service)
+                        <div class="col-sm-12 form-group">
+                            <label>
+                                {{Form::checkbox('service[]', $service->id)}}
+                                {{$service->name}}
+                            </label>
+                        </div>
+                        @endforeach
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-10 text-center">
+        <div class="row">
+            <div class="col-md-6">
+                @foreach($tooth as $i => $teeth)
+                @if($i < 32) <div class="col-16 text-center" onclick="clickTeeth({{$teeth->id}}, {{$teeth->name}})">
+                    @if($teeth->job)
+                    <label id="{{$teeth->id}}" style='color: red;'>{{$teeth->name}}</label>
+                    @else
+                    <label id="{{$teeth->id}}">{{$teeth->name}}</label>
+                    @endif
+                    <br>
+                    <img src="{{asset('assets/' . $teeth->img)}}" alt="{{$teeth->name}}">
+            </div>
+            @if((($i+1) % 8) == 0)
+        </div>
+        <div class="col-md-6">
+            @endif
+            @endif
+            @endforeach
+        </div>
+        <br>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            @foreach($tooth as $i => $teeth)
+            @if($i > 31)
+            <div class="col-10 text-center" onclick="clickTeeth({{$teeth->id}}, {{$teeth->name}})">
+                @if($teeth->job)
+                <label id="{{$teeth->id}}" style='color: red;'>{{$teeth->name}}</label>
+                @else
+                <label id="{{$teeth->id}}">{{$teeth->name}}</label>
+                @endif
+                <br>
+                <img src="{{asset('assets/' . $teeth->img)}}" alt="{{$teeth->name}}">
+            </div>
+            @endif
+            @endforeach
+        </div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-lg btn-primary">Terminar</button>
+</div>
+</div>
+{{Form::close()}}
 @endif
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

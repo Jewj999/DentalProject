@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Consultation;
+use App\DetailConsultationService;
 use App\DetailToothConsultation;
 use App\Http\Controllers\Controller;
 use App\Job;
@@ -46,7 +47,6 @@ class ConsultationController extends Controller
                 $active = Consultation::where('status_id', 1)->count();
                 if ($active == 0) {
                     $consultation = new Consultation();
-                    $consultation->speciality = '';
                     $consultation->turn_id = $turn->id;
                     $consultation->status_id = 1;
                     $consultation->save();
@@ -91,8 +91,28 @@ class ConsultationController extends Controller
     public function update(Request $request)
     {
         try {
-            echo ('si');
-            die();
+            $validator = Validator::make($request->all(), [
+                'consultation' => 'required|exists:consultations,id',
+                'service' => 'required|array',
+                'comment' => 'nullable'
+            ]);
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator->errors());
+            } else {
+                $consultation = Consultation::find($request->consultation);
+                $consultation->comment = $request->comment;
+                $consultation->status_id = 2;
+                $consultation->save();
+
+                foreach($request->service as $service) {
+                    $detail = new DetailConsultationService();
+                    $detail->consultation_id = $consultation->id;
+                    $detail->service_id = $service;
+                    $detail->save();
+                }
+
+                return redirect()->route('admin.consultation.active');
+            }
         } catch (\Exception $ex) {
             return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
         }
