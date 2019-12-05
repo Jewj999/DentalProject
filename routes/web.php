@@ -90,7 +90,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('appointment', 'AppointmentController@store')->name('appointment');
     Route::get('appointment/{appointment_id}', 'AppointmentController@edit')->name('appointment.edit');
     Route::post('appointment/update', 'AppointmentController@update')->name('appointment.update');
-
+    Route::post('appointment/search', 'AppointmentController@search')->name('appointment.search');
     // Turn
     Route::get('turn', 'TurnController@index')->name('turn');
     Route::get('turn/patient', 'TurnController@patientList')->name('turn.patient');

@@ -178,4 +178,26 @@ class AppointmentController extends Controller
             return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
         }
     }
+
+    public function search(Request $request)
+    {
+        try {
+            if (trim($request->parameter) == '') {
+                return redirect()->route('admin.appointment');
+            } else {
+                $appointments = Appointment::join('patients', 'appointments.patient_id', '=', 'patients.id')
+                    ->where('appointments.status_id', 1)
+                    ->when($request->parameter, function ($query, $parameter) {
+                        $query->where('patients.name', 'like', '%' . $parameter . '%')
+                            ->orWhere('patients.apellido', 'like', '%' . $parameter . '%')
+                            ->orWhere('patients.dui', 'like', '%' . $parameter . '%');
+                    })->orderBy('day')
+                    ->select('Appointments.*')
+                    ->get()->load('patient');
+                return view('admin.appointment.list', ['data' => $appointments, 'filter' => $request->parameter]);
+            }
+        } catch (\Exception $ex) {
+            return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
+        }
+    }
 }
