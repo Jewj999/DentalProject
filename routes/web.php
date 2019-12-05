@@ -88,11 +88,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('appointment', 'AppointmentController@index')->name('appointment.list');
     Route::get('appointment/create/{patient_id}', 'AppointmentController@create')->name('appointment.create');
     Route::post('appointment', 'AppointmentController@store')->name('appointment');
+    Route::get('appointment/{appointment_id}', 'AppointmentController@edit')->name('appointment.edit');
+    Route::post('appointment/update', 'AppointmentController@update')->name('appointment.update');
 
     // Turn
     Route::get('turn', 'TurnController@index')->name('turn');
     Route::get('turn/patient', 'TurnController@patientList')->name('turn.patient');
     Route::get('turn/next/{patient_id}', 'TurnController@nextPatient')->name('turn.next');
+    Route::get('turn/appointment', 'TurnController@appointmentList')->name('turn.appointment');
+    Route::get('turn/insert/{appointment_id}', 'TurnController@nextAppointment')->name('turn.next.appointment');
 
     // Consultation
     Route::get('consultation/{turn_id}', 'ConsultationController@store')->name('consultation');

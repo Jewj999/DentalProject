@@ -2,18 +2,17 @@
 
 @section('content_appointment')
 <div class="row">
-    <h1 class="text-center">Citas</h1>
+    <h1 class="text-center">Citas pendientes</h1>
 </div>
 <div class="row">
     <table class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>Paciente</th>
-                <th>Día</th>
-                <th>Hora</th>
+                <th>Día de la cita</th>
+                <th>Hora de la cita</th>
                 <th>Razón</th>
-                <th>Estado</th>
-                <th>Fecha de la cita</th>
+                <th>Accion</th>
             </tr>
         </thead>
         <tbody>
@@ -23,9 +22,11 @@
                 <td>{{$appoint->day}}</td>
                 <td>{{$appoint->hour}}</td>
                 <td>{{$appoint->reason}}</td>
-                <td>{{$appoint->status->name}}</td>
-                <td>{{$appoint->created_at}}</td>
-
+                <td>
+                    <a href="{{route('admin.appointment.edit', [$appoint->id])}}" class="btn btn-xs btn-primary">
+                        <i class="fa fa-pencil"></i>
+                    </a>
+                </td>
             </tr>
             @endforeach
         </tbody>
