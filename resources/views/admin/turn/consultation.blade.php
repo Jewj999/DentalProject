@@ -12,7 +12,6 @@
                 <th>Apellido</th>
                 <th>DUI</th>
                 <th>Edad</th>
-                <th>Costo ($)</th>
                 <th>Accion</th>
             </tr>
         </thead>
@@ -24,8 +23,8 @@
                 <td>{{$consultation->turn->patient->dui}}</td>
                 <td>{{$consultation->turn->patient->age}}</td>
                 <td>
-                    <a href="" class='btn btn-xs btn-primary'>
-                        <i class="fa fa-dollar"></i>
+                    <a href="{{route('admin.consultation.pdf', [$consultation->id])}}" target="_blank" class='btn btn-xs btn-primary'>
+                        <i class="fa fa-file"></i>
                     </a>
                 </td>
             </tr>

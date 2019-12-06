@@ -13,6 +13,7 @@ use App\Turn;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class ConsultationController extends Controller
 {
@@ -21,11 +22,7 @@ class ConsultationController extends Controller
         try {
             $consultations = Consultation::whereBetween('created_at', [Carbon::today(), Carbon::now()])->where('status_id', '!=', 1)->orderBy('created_at')->get()->load('services');
             foreach ($consultations as $consultation) {
-                $turn = Turn::onlyTrashed()->where('id', $consultation->turn_id)->first()->load('patient');
-                $consultation->turn = $turn;
-                // Get age
-                $age = date_diff(new Carbon($consultation->turn->patient->born), Carbon::now());
-                $consultation->turn->patient->age = $age->format('%y');
+                $consultation = $this->fillConsultation($consultation);
             }
             return view('admin.turn.consultation', ['consultations' => $consultations]);
         } catch (\Exception $ex) {
@@ -67,18 +64,18 @@ class ConsultationController extends Controller
         try {
             $services = Service::all();
             $jobs = Job::all();
-            $tooth = Tooth::all();
+            $teeth = Tooth::all();
             $consultation = Consultation::where('status_id', 1)->first();
             if ($consultation != null) {
                 $consultation = $this->fillConsultation($consultation);
                 $details = DetailToothConsultation::where('consultation_id', $consultation->id)->select('tooth_id')->get();
-                $teeth = [];
+                $teeth_worked = [];
                 foreach ($details as $detail) {
-                    array_push($teeth, $detail->tooth_id);
+                    array_push($teeth_worked, $detail->tooth_id);
                 }
-                foreach ($tooth as $toothSingle) {
-                    if (in_array($toothSingle->id, $teeth)) {
-                        $toothSingle->job = true;
+                foreach ($teeth as $tooth) {
+                    if (in_array($tooth->id, $teeth_worked)) {
+                        $tooth->job = true;
                     }
                 }
             }
@@ -104,7 +101,7 @@ class ConsultationController extends Controller
                 $consultation->status_id = 2;
                 $consultation->save();
 
-                foreach($request->service as $service) {
+                foreach ($request->service as $service) {
                     $detail = new DetailConsultationService();
                     $detail->consultation_id = $consultation->id;
                     $detail->service_id = $service;
@@ -177,9 +174,42 @@ class ConsultationController extends Controller
         }
     }
 
+    public function createPDF($consultation_id)
+    {
+        try {
+            $consultation = Consultation::find($consultation_id);
+            if ($consultation == null) {
+                return view('error', ['code' => 404, 'message' => 'Consultation not found']);
+            } else {
+                $consultation = $this->fillConsultation($consultation);
+                // Fill teeth information 
+                $jobs = Job::all();
+                $teeth = Tooth::all();
+                $details = DetailToothConsultation::where('consultation_id', $consultation->id)->get();
+                foreach ($teeth as $tooth) {
+                    $teeth_jobs = [];
+                    foreach ($details as $detail) {
+                        if ($detail->tooth_id == $tooth->id) {
+                            array_push($teeth_jobs, $detail->job_id);
+                        }
+                    }
+                    $tooth->jobs = $teeth_jobs;
+                }
+                $consultation->teeth = $teeth;
+                // Create PDF
+                $turns = Turn::where('patient_id', $consultation->turn->patient->id)->count();
+                $pdf_name = $consultation->turn->patient->apellido . '-' . $consultation->turn->patient->name . '_' . $turns . '.pdf';
+                $pdf = PDF::loadView('admin.consultation.report', compact('consultation', 'jobs'));
+                return $pdf->stream();
+            }
+        } catch (\Exception $ex) {
+            return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
+        }
+    }
+
     private function fillConsultation(Consultation $consultation)
     {
-        $turn = Turn::onlyTrashed()->where('id', $consultation->turn_id)->first()->load('patient');
+        $turn = Turn::onlyTrashed()->where('id', $consultation->turn_id)->first()->load('patient', 'appointment');
         $consultation->turn = $turn;
         // Get age
         $age = date_diff(new Carbon($consultation->turn->patient->born), Carbon::now());
