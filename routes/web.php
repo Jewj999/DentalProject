@@ -72,6 +72,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::put('servicios/{service}', 'ServiceController@update')->name('servicios.update');
     Route::any('servicios/{id}/destroy', 'ServiceController@destroy')->name('servicios.destroy');
 
+    //Logs
     Route::get('logs', 'LogController@index')->name('logs.list');
 
     //Users

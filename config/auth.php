@@ -113,7 +113,7 @@ return [
         /*
          * The role the user is assigned to when they sign up from the frontend, not namespaced
          */
-        'default_role' => 'authenticated',
+        'default_role' => 'administrator',
 
         /*
          * Whether or not the user has to confirm their email when signing up

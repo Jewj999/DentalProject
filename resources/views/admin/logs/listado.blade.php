@@ -16,7 +16,6 @@
             </div>
             <div class="row">
                 <div class="x_content">
-
                     <table class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                         <thead>
                             <tr>

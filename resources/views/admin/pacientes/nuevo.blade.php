@@ -75,7 +75,7 @@
                             <div class="row">
                                 <div class="col-md-12 has-feedback @error('dirField') has-error @enderror">
                                     <label class="control-label" for="dirField">Direccion</label>
-                                    <input class="form-control" type="text" name="dirField" id=""
+                                    <input class="form-control" type="text" name="dirField" id="dirField"
                                         placeholder="Barrio San Esteban, Poligono 4, Casa #12" required>
                                 </div>
                             </div>
@@ -111,6 +111,23 @@
             }
         })
     });
+
+    $('#nameField, #lastNameField').keypress(function(e){
+        if(!isNaN(parseInt(e.key))){
+            e.preventDefault();
+        }
+    });
+    $('#duiField, #phoneField').keypress(function(e){
+        if(isNaN(parseInt(e.key))){
+            e.preventDefault();
+        }
+    });
+    $('#dirField').keypress(function(e){
+        if($(this).val().length >= 150){
+            e.preventDefault();
+        }
+    });
+
 </script>
 @endsection
 
