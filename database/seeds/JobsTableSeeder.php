@@ -13,19 +13,24 @@ class JobsTableSeeder extends Seeder
     {
         DB::table('jobs')->insert([
             [
-                'name' => 'Fractura'
+                'name' => 'Fractura',
+                'class' => 'toggle-frac'
             ],
             [
-                'name' => 'Obstrucción'
+                'name' => 'Obstrucción',
+                'class' => 'toggle-obs'
             ],
             [
-                'name' => 'Extracción'
+                'name' => 'Extracción',
+                'class' => 'toggle-ext'
             ],
             [
-                'name' => 'A extraer'
+                'name' => 'A extraer',
+                'class' => 'toggle-aex'
             ],
             [
-                'name' => 'Puente'
+                'name' => 'Puente',
+                'class' => 'toggle-pue'
             ]
         ]);
     }
