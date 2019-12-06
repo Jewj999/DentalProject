@@ -13,6 +13,7 @@ use App\Turn;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\PDF;
 
 class ConsultationController extends Controller
 {
@@ -21,11 +22,7 @@ class ConsultationController extends Controller
         try {
             $consultations = Consultation::whereBetween('created_at', [Carbon::today(), Carbon::now()])->where('status_id', '!=', 1)->orderBy('created_at')->get()->load('services');
             foreach ($consultations as $consultation) {
-                $turn = Turn::onlyTrashed()->where('id', $consultation->turn_id)->first()->load('patient');
-                $consultation->turn = $turn;
-                // Get age
-                $age = date_diff(new Carbon($consultation->turn->patient->born), Carbon::now());
-                $consultation->turn->patient->age = $age->format('%y');
+                $consultation = $this->fillConsultation($consultation);
             }
             return view('admin.turn.consultation', ['consultations' => $consultations]);
         } catch (\Exception $ex) {
@@ -104,7 +101,7 @@ class ConsultationController extends Controller
                 $consultation->status_id = 2;
                 $consultation->save();
 
-                foreach($request->service as $service) {
+                foreach ($request->service as $service) {
                     $detail = new DetailConsultationService();
                     $detail->consultation_id = $consultation->id;
                     $detail->service_id = $service;
@@ -174,6 +171,24 @@ class ConsultationController extends Controller
                 'message' => $ex->getMessage(),
                 'blob' => []
             ], 500);
+        }
+    }
+
+    public function createPDF($consultation_id)
+    {
+        try {
+            $consultation = Consultation::find($consultation_id);
+            if ($consultation == null) {
+                return view('error', ['code' => 404, 'message' => 'Consultation not found']);
+            } else {
+                $consultation = $this->fillConsultation($consultation);
+                $turns = Turn::where('patient_id', $consultation->turn->patient->id)->count();
+                $pdf_name = $consultation->turn->patient->apellido . '-' . $consultation->turn->patient->name . '_' . $turns . '.pdf';
+                $pdf = PDF::loadView('admin.consultation.report', $consultation);
+                return $pdf->stream($pdf_name);
+            }
+        } catch (\Exception $ex) {
+            return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
         }
     }
 
