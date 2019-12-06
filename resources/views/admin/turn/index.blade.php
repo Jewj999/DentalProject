@@ -13,7 +13,7 @@
                 <a href="{{route('admin.turn.consultation')}}" class="nav-link">Consultas</a>
             </li>
             <li class="nav-item">
-                <a href="" class="nav-link">Citas</a>
+                <a href="{{route('admin.turn.appointment')}}" class="nav-link">Citas</a>
             </li>
             <li class="nav-item">
                 <a href="{{route('admin.turn.patient')}}" class="nav-link">Pacientes</a>

@@ -34,7 +34,7 @@
                 <td>{{$turn->patient->sex->name}}</td>
                 @if($turn->appointment != null)
                 <td>
-                    <input type="checkbox" value="true" disabled>
+                    <input type="checkbox" value="true" disabled checked>
                 </td>
                 @else
                 <td>

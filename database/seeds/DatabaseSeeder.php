@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TeethTableSeeder::class);
         $this->call(ConsultationStatusesTableSeeder::class);
         $this->call(StatusTableSeeder::class);
+        $this->call(JobsTableSeeder::class);
     }
 }

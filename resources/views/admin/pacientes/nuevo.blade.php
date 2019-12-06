@@ -27,8 +27,7 @@
                                 <div class="form-group col-md-6 has-feedback @error('duiField') has-error @enderror">
                                     <label class="control-label" for="duiField">DUI</label>
                                     <input type="text" class="form-control" name="duiField" id="duiField"
-                                        placeholder="123456789" required>
-
+                                        placeholder="123456789">
                                 </div>
                             </div>
                             <div class="row">

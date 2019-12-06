@@ -15,7 +15,7 @@ class TurnController extends Controller
     public function index()
     {
         try {
-            $turns = Turn::whereBetween('created_at', [Carbon::today(), Carbon::now()])->get();
+            $turns = Turn::whereBetween('created_at', [Carbon::today(), Carbon::now()->format('Y-m-d') . ' 23:59:59'])->orderBy('created_at')->get();
             return view('admin.turn.list', ['turns' => $turns]);
         } catch (\Exception $ex) {
             return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
@@ -35,7 +35,8 @@ class TurnController extends Controller
     public function appointmentList()
     {
         try {
-            $appointments = Appointment::where('status_id', 1)->orderBy('hour')->get();
+            $appointments = Appointment::where('day', Carbon::now()->format('Y-m-d'))->where('status_id', 1)->orderBy('hour')->get();
+            return view('admin.turn.appointment', ['appointments' => $appointments]);
         } catch (\Exception $ex) {
             return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
         }
@@ -79,69 +80,32 @@ class TurnController extends Controller
             return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
         }
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function nextAppointment($appointment_id)
     {
-        //
-    }
+        try {
+            $errors = [];
+            $appointment = Appointment::find($appointment_id);
+            if ($appointment == null) {
+                return view('error', ['code' => 404, 'message' => 'Appointment not found']);
+            } else {
+                $count_turns = Turn::where('patient_id', $appointment->patient_id)->count();
+                if ($count_turns != 0) {
+                    array_push($errors, 'The patient is already waiting for his turn');
+                } else {
+                    $appointment->status_id = 2;
+                    $appointment->save();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Turn  $turn
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Turn $turn)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Turn  $turn
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Turn $turn)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Turn  $turn
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Turn $turn)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Turn  $turn
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Turn $turn)
-    {
-        //
+                    $turn = new Turn();
+                    $turn->appointment_id = $appointment->id;
+                    $turn->patient_id = $appointment->patient_id;
+                    $turn->created_at = (new Carbon($appointment->day . ' ' . $appointment->hour))->toDateTimeString();
+                    $turn->save();
+                }
+                return redirect()->route('admin.turn')->with('errors', $errors);
+            }
+        } catch (\Exception $ex) {
+            return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
+        }
     }
 }
