@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Appointment;
+use App\Consultation;
 use App\Models\Auth\User\User;
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogEntry;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Turn;
 use Illuminate\Routing\Route;
 
 class DashboardController extends Controller
@@ -29,18 +32,26 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $counts = [
-            'users' => \DB::table('users')->count(),
-            'users_unconfirmed' => \DB::table('users')->where('confirmed', false)->count(),
-            'users_inactive' => \DB::table('users')->where('active', false)->count(),
-            'protected_pages' => 0,
+        // dd();
+        $consultations = Consultation::select(\DB::raw('count(*) as count, DATE(updated_at) as date'))
+            ->whereBetween('updated_at', [Carbon::now()->addDays(-30), Carbon::now()])
+            ->groupBy('date')->get();
+        $data = [
+            "labels" => [],
+            "counts" => []
         ];
-
-        foreach (\Route::getRoutes() as $route) {
-            foreach ($route->middleware() as $middleware) {
-                if (preg_match("/protection/", $middleware, $matches)) $counts['protected_pages']++;
-            }
+        foreach ($consultations as $con) {
+            array_push($data['labels'], $con->date);
+            array_push($data['counts'], $con->count);
         }
+        $counts = [
+            'patients' => \DB::table('patients')->count(),
+            'dates_today' => \DB::table('appointments')->whereBetween('day', [Carbon::today(), Carbon::now()->format('Y-m-d') . ' 23:59:59'])->count(),
+            'waiting' => Turn::count(),
+            'appointments' => Consultation::whereBetween('updated_at', [Carbon::today(), Carbon::now()->format('Y-m-d') . ' 23:59:59'])->count(),
+            'graphData' => $data
+        ];
+        // dd($counts);
 
         return view('admin.dashboard', ['counts' => $counts]);
     }

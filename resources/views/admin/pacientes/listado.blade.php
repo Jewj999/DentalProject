@@ -9,7 +9,8 @@
                 <input type="hidden" name="route" value="1">
                 <div class="col-md-11">
                     @if(isset($filter))
-                    <input type="text" name="parameter" id="filter_input" value='{{$filter}}' class="form-control" placeholder="Buscar...">
+                    <input type="text" name="parameter" id="filter_input" value='{{$filter}}' class="form-control"
+                        placeholder="Buscar...">
                     @else
                     <input type="text" name="parameter" id="filter_input" class="form-control" placeholder="Buscar...">
                     @endif
@@ -44,16 +45,22 @@
                                 <td>{{$patient->phone}}</td>
                                 <td>{{$patient->sex->name}}</td>
                                 <td id="acciones">
-                                    <a class="btn btn-primary" href="#" data-toggle="tooltip" data-placement="top" data-title="Expediente">
+                                    <a class="btn btn-primary" href="#" data-toggle="tooltip" data-placement="top"
+                                        data-title="Expediente">
                                         <i class="fa fa-eye"></i>
                                     </a>
-                                    <a class="btn btn-info" href="{{ route('admin.pacientes.edit', [$patient->id]) }}" data-toggle="tooltip" data-placement="top" data-title="Editar">
+                                    <a class="btn btn-info" href="{{ route('admin.pacientes.edit', [$patient->id]) }}"
+                                        data-toggle="tooltip" data-placement="top" data-title="Editar">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    <a class="btn btn-primary" href="{{route('admin.appointment.create', [$patient->id])}}" data-toggle="tooltip" data-placement="top" data-title="Citar">
+                                    <a class="btn btn-primary"
+                                        href="{{route('admin.appointment.create', [$patient->id])}}"
+                                        data-toggle="tooltip" data-placement="top" data-title="Citar">
                                         <i class="fa fa-calendar"></i>
                                     </a>
-                                    <a class="btn btn-danger user_destroy" href="{{ route('admin.pacientes.destroy', [$patient->id]) }}" data-toggle="tooltip" data-placement="top" data-title="Eliminar">
+                                    <a class="btn btn-danger user_destroy"
+                                        href="{{ route('admin.pacientes.destroy', [$patient->id]) }}"
+                                        data-toggle="tooltip" data-placement="top" data-title="Eliminar">
                                         <i class="fa fa-trash"></i>
                                     </a>
                                 </td>

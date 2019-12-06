@@ -92,8 +92,6 @@ class LoginController extends Controller
     {
         $errors = [];
 
-      
-
         if (!$user->active) {
             $errors = [$this->username() => __('auth.active')];
         }

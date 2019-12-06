@@ -102,6 +102,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('turn/next/{patient_id}', 'TurnController@nextPatient')->name('turn.next');
     Route::get('turn/appointment', 'TurnController@appointmentList')->name('turn.appointment');
     Route::get('turn/insert/{appointment_id}', 'TurnController@nextAppointment')->name('turn.next.appointment');
+    Route::post('turn/search', 'PacienteController@search')->name('turn.search');
+
 
     // Consultation
     Route::get('consultation/{turn_id}', 'ConsultationController@store')->name('consultation');
@@ -111,12 +113,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Report
     Route::get('report', 'ReportController@index')->name('report');
+    Route::post('report/search', 'ReportController@search')->name('report.search');
 
     //Audits
     Route::get('audits', 'AuditController@index')->name('audits');
 });
 
-Route::get('/', 'HomeController@index');
+Route::get('/', 'Admin\DashboardController@index');
 
 /**
  * Membership

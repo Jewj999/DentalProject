@@ -5,21 +5,21 @@
 @section('content')
 <div class="row">
     <div class="x_content">
-        <form action="" method='POST'>
-            <div class="row">
-                <div class="form-group col-md-5">
-                    <label for="init">Inicio:</label>
-                    <input type="date" name="init" class="form-control">
-                </div>
-                <div class="form-group col-md-5">
-                    <label for="final">Fin:</label>
-                    <input type="date" name="final" class="form-control">
-                </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary">Filtrar</button>
-                </div>
+        <div class="row">
+            {{Form::open(['route'=>['admin.report.search'], 'method'=> 'post'])}}
+            <div class="form-group col-md-5">
+                <label for="init">Inicio:</label>
+                <input type="date" name="init" id="init" class="form-control" value="">
             </div>
-        </form>
+            <div class="form-group col-md-5">
+                <label for="final">Fin:</label>
+                <input type="date" name="final" id="final" class="form-control">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            </div>
+            {{Form::close()}}
+        </div>
     </div>
 </div>
 <div class="row">
@@ -52,4 +52,13 @@
         </tbody>
     </table>
 </div>
+@endsection
+
+@section('scripts')
+@parent
+<script>
+    $(document).ready(function(){
+        $('#init, #final').val(new Date().toISOString().substr(0,10));
+    });
+</script>
 @endsection

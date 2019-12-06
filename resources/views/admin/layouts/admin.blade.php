@@ -39,7 +39,7 @@
 {{ Html::style(mix('assets/admin/css/admin.css')) }}
 
 <style>
-    
+
 </style>
 @endsection
 

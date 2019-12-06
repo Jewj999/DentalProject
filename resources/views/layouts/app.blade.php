@@ -37,6 +37,7 @@
 
     {{--Scripts--}}
     @yield('scripts')
+    <script src="{{asset('assets/Chart.bundle.min.js')}}"></script>
 </body>
 
 </html>
