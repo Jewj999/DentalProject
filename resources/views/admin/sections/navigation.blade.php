@@ -1,9 +1,6 @@
-<div class="col-md-3 left_col">
+<div class="col-md-3 left_col scroll">
     <div class="left_col scroll-view">
-
-
         <div class="clearfix"></div>
-
         <!-- menu profile quick info -->
         <div class="profile clearfix">
             <div class="">
@@ -105,6 +102,27 @@
 <style>
     .clin_img {
         max-width: 100%;
+    }
+
+    .scroll {
+        overflow: scroll;
+        height: 100vh;
+    }
+
+    ::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey;
+        border-radius: 10px;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #EA6715;
+        border-radius: 10px;
     }
 </style>
 @endsection
