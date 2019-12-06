@@ -52,10 +52,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Dashboard
     Route::get('/', 'DashboardController@index')->name('dashboard');
+
+    // Patient
     Route::get('pacientes', 'PacienteController@list')->name('pacientes.list');
     Route::post('pacientes', 'PacienteController@create')->name('pacientes.create');
     Route::get('pacientes/{patient}/edit', 'PacienteController@edit')->name('pacientes.edit');
     Route::put('pacientes/{patient}', 'PacienteController@update')->name('pacientes.update');
+    Route::post('patient/search', 'PacienteController@search')->name('paciente.search');
     Route::any('pacientes/{id}/destroy', 'PacienteController@destroy')->name('pacientes.destroy');
 
     Route::get('pacientes/new', 'PacienteController@new')->name('pacientes.new');
@@ -91,6 +94,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('appointment/{appointment_id}', 'AppointmentController@edit')->name('appointment.edit');
     Route::post('appointment/update', 'AppointmentController@update')->name('appointment.update');
     Route::post('appointment/search', 'AppointmentController@search')->name('appointment.search');
+
     // Turn
     Route::get('turn', 'TurnController@index')->name('turn');
     Route::get('turn/patient', 'TurnController@patientList')->name('turn.patient');

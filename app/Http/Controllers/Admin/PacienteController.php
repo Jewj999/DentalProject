@@ -108,4 +108,31 @@ class PacienteController extends Controller
         }
         return redirect()->route('admin.pacientes.list')->withFlashSuccess('Error');
     }
+
+
+    public function search(Request $request)
+    {
+        try {
+            $route = '';
+            switch ($request->route) {
+                case 1:
+                    $route = 'admin.pacientes.listado';
+                    break;
+                case 2:
+                    $route = 'admin.turn.search';
+                    break;
+                default:
+                    $route = 'admin.pacientes.listado';
+                    break;
+            }
+            $pacientes = Patient::where('name', 'like', '%' . $request->parameter . '%')
+                ->orWhere('apellido', 'like', '%' . $request->parameter . '%')
+                ->orWhere('dui', 'like', '%' . $request->parameter . '%')
+                ->with('sex')->sortable(['name', 'apellido'])
+                ->paginate();
+            return view($route, ['patients' => $pacientes, 'filter' => $request->parameter]);
+        } catch (\Exception $ex) {
+            return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
+        }
+    }
 }
