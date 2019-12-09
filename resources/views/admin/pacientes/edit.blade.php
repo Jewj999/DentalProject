@@ -14,7 +14,7 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <input id="name" type="text"
                     class="form-control col-md-7 col-xs-12 @if($errors->has('name')) parsley-error @endif" name="name"
-                    value="{{ $patient->name }}" required>
+                    id="name" value="{{ $patient->name }}" required>
                 @if($errors->has('name'))
                 <ul class="parsley-errors-list filled">
                     @foreach($errors->get('name') as $error)
@@ -138,4 +138,28 @@
 
 @section('scripts')
 @parent
+<script>
+    $('#name, #apellido').keypress(function(e){
+   
+        if(!(($(this).val() + e.key).match(/^[A-Za-z\s]+$/)) && $(this).val() != ""){
+            e.preventDefault();
+        }
+    });
+    $('#dui, #phone').keypress(function(e){
+        if(isNaN(parseInt(e.key))){
+            e.preventDefault();
+        }
+    });
+    $('#dui').keypress(function(e){
+        if($(this).val().length >= 9){
+            e.preventDefault();
+        }
+    });
+    $('#dir').keypress(function(e){
+        if($(this).val().length >= 150){
+            e.preventDefault();
+        }
+    });
+
+</script>
 @endsection

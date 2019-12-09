@@ -113,12 +113,18 @@
     });
 
     $('#nameField, #lastNameField').keypress(function(e){
-        if(!isNaN(parseInt(e.key))){
+   
+        if(!(($(this).val() + e.key).match(/^[A-Za-z\s]+$/)) && $(this).val() != ""){
             e.preventDefault();
         }
     });
     $('#duiField, #phoneField').keypress(function(e){
         if(isNaN(parseInt(e.key))){
+            e.preventDefault();
+        }
+    });
+    $('#duiField').keypress(function(e){
+        if($(this).val().length >= 9){
             e.preventDefault();
         }
     });
