@@ -141,7 +141,7 @@
 <script>
     $('#name, #apellido').keypress(function(e){
    
-        if(!(($(this).val() + e.key).match(/^[A-Za-z\s]+$/)) && $(this).val() != ""){
+        if(!(($(this).val() + e.key).match(/^[A-Za-z\s]+$/))){
             e.preventDefault();
         }
     });
