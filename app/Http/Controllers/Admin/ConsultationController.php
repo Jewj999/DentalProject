@@ -17,6 +17,11 @@ use Barryvdh\DomPDF\Facade as PDF;
 
 class ConsultationController extends Controller
 {
+
+    public function __construct()
+    {
+        // $this->middleware('guest')->only(['show', 'update']);
+    }
     public function index()
     {
         try {
@@ -79,7 +84,7 @@ class ConsultationController extends Controller
                     }
                 }
             }
-            return view('admin.consultation.index', ['consultation' => $consultation, 'services' => $services, 'jobs' => $jobs, 'tooth' => $tooth]);
+            return view('admin.consultation.index', ['consultation' => $consultation, 'services' => $services, 'jobs' => $jobs, 'tooth' => $teeth]);
         } catch (\Exception $ex) {
             return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
         }

@@ -101,7 +101,7 @@
     $("#dptoField").change(function() {
         $.ajax({
             type: 'GET',
-            url : `/laravel-boilerplate/public/api/${$(this).val()}/municipalities`,
+            url : `{{url('/api/${$(this).val()}/municipalities')}}`,
             success : function(res){
                 let app = '';
                 for(let v of res){

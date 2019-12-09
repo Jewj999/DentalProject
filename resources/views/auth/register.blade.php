@@ -27,11 +27,11 @@
                         placeholder="{{ __('views.auth.register.input_3') }}" required />
                 </div>
                 <div>
-                    <select class="form-control" name="type" id="sexField" required>
+                    <select class="form-control" name="typeField" id="typeField" required>
 
-                        <option value="" selected>Seleccione tipo de usuario</option>
-                        <option value="">Odontologo</option>
-
+                        <option selected>Seleccione tipo de usuario</option>
+                        <option value="1">Odontologo/a</option>
+                        <option value="2">Secretario/a</option>
                     </select>
                 </div>
                 <br>
@@ -67,7 +67,7 @@
                     <div class="clearfix"></div>
                     <br />
 
-                
+
                 </div>
                 {{ Form::close() }}
             </section>

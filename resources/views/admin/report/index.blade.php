@@ -8,17 +8,25 @@
         <div class="row">
             {{Form::open(['route'=>['admin.report.search'], 'method'=> 'post'])}}
             <div class="form-group col-md-5">
-                <label for="init">Inicio:</label>
+                <label for="init">Desde:</label>
                 <input type="date" name="init" id="init" class="form-control" value="">
             </div>
             <div class="form-group col-md-5">
-                <label for="final">Fin:</label>
+                <label for="final">Hasta:</label>
                 <input type="date" name="final" id="final" class="form-control">
             </div>
             <div class="col-md-2">
                 <button type="submit" class="btn btn-primary">Filtrar</button>
             </div>
             {{Form::close()}}
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <a href="{{url('')}}" target="_blank" class='btn btn-primary' data-toggle="tooltip" data-placement="top"
+                    data-title="Reporte General" id="rep">
+                    <i class="fa fa-file"></i>
+                </a>
+            </div>
         </div>
     </div>
 </div>
@@ -43,8 +51,9 @@
                 <td>{{$consultation->turn->patient->age}}</td>
                 <td>{{$consultation->created_at}}</td>
                 <td>
-                    <a href="" class="btn btn-xs btn-primary">
-                        <i class="fa fa-archive"></i>
+                    <a href="{{route('admin.consultation.pdf', [$consultation->id])}}" target="_blank"
+                        class='btn btn-xs btn-primary' data-toggle="tooltip" data-placement="top" data-title="PDF">
+                        <i class="fa fa-file"></i>
                     </a>
                 </td>
             </tr>
@@ -59,6 +68,11 @@
 <script>
     $(document).ready(function(){
         $('#init, #final').val(new Date().toISOString().substr(0,10));
+        $('#rep').attr('href', `{{url("admin/report/pdf")}}?init=${$('#init').val()}&final=${$('#final').val()}`);
+    });
+
+    $('#init, #final').change(function(){
+        $('#rep').attr('href', `{{url("admin/report/pdf")}}?init=${$('#init').val()}&final=${$('#final').val()}`);
     });
 </script>
 @endsection

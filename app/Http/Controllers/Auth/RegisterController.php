@@ -56,6 +56,7 @@ class RegisterController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
+            'typeField' => 'required'
         ];
 
         if (config('auth.captcha.registration')) {
@@ -84,6 +85,10 @@ class RegisterController extends Controller
 
         if (config('auth.users.default_role')) {
             $user->roles()->attach(Role::firstOrCreate(['name' => config('auth.users.default_role')]));
+
+            if ($data['typeField'] == '2') {
+                $user->roles()->attach(Role::firstOrCreate(['name' => 'authenticated']));
+            }
         }
 
         return $user;

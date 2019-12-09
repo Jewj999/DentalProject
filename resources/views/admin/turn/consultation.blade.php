@@ -23,7 +23,8 @@
                 <td>{{$consultation->turn->patient->dui}}</td>
                 <td>{{$consultation->turn->patient->age}}</td>
                 <td>
-                    <a href="{{route('admin.consultation.pdf', [$consultation->id])}}" target="_blank" class='btn btn-xs btn-primary'>
+                    <a href="{{route('admin.consultation.pdf', [$consultation->id])}}" target="_blank"
+                        class='btn btn-xs btn-primary' data-toggle="tooltip" data-placement="top" data-title="Generar PDF">
                         <i class="fa fa-file"></i>
                     </a>
                 </td>

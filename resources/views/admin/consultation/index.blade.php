@@ -8,11 +8,11 @@
     </div>
 </div>
 @if($consultation == null)
-    <div class="row">
-        <div class="col-sm-12 text-center">
+<div class="row">
+    <div class="col-sm-12 text-center">
         <img src="{{asset('/assets/reload.png')}}" alt="Cuando entre el paciente recarge la pagina">
-        </div>
     </div>
+</div>
 @else
 @if(count($errors->all()) != 0)
 <div class="row">
@@ -89,6 +89,13 @@
         </div>
     </div>
     <br>
+    <div class="row">
+        <div class="form-group col-md-12 has-feedback">
+            <label class="control-label" for="phoneField">Comentarios</label>
+            <textarea class="form-control" rows="3" id="comment" name="comment"></textarea>
+        </div>
+    </div>
+    <br>
     <button type="submit" class="btn btn-lg btn-primary">Terminar</button>
 </div>
 </div>
@@ -99,7 +106,8 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Trabajo en el diente</h4>
             </div>
             <div class="modal-body">

@@ -108,13 +108,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Consultation
     Route::get('consultation/{turn_id}', 'ConsultationController@store')->name('consultation');
     Route::get('turn/consultation', 'ConsultationController@index')->name('turn.consultation');
-    Route::get('consultation', 'ConsultationController@show')->name('consultation.active');
+    Route::get('consultation', 'ConsultationController@show')->name('consultation.active')->middleware('secretary');
     Route::post('consultation', 'ConsultationController@update')->name('consultation.update');
     Route::get('consultation/pdf/{consultation_id}', 'ConsultationController@createPDF')->name('consultation.pdf');
 
     // Report
     Route::get('report', 'ReportController@index')->name('report');
     Route::post('report/search', 'ReportController@search')->name('report.search');
+    Route::get('report/pdf', 'ReportController@generalReport')->name('report.pdf');
 
     //Audits
     Route::get('audits', 'AuditController@index')->name('audits');

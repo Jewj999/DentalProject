@@ -23,12 +23,14 @@
                             {{ __('views.backend.section.navigation.menu_0_1') }}
                         </a>
                     </li>
+                    @if (!Auth::user()->hasRole('authenticated'))
                     <li>
                         <a href="{{route('admin.consultation.active')}}">
                             <i class="fa fa-bell"></i>
                             Atender
                         </a>
                     </li>
+                    @endif
                 </ul>
             </div>
             <div class="menu_section">

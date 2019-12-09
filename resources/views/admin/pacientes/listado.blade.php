@@ -45,10 +45,6 @@
                                 <td>{{$patient->phone}}</td>
                                 <td>{{$patient->sex->name}}</td>
                                 <td id="acciones">
-                                    <a class="btn btn-primary" href="#" data-toggle="tooltip" data-placement="top"
-                                        data-title="Expediente">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
                                     <a class="btn btn-info" href="{{ route('admin.pacientes.edit', [$patient->id]) }}"
                                         data-toggle="tooltip" data-placement="top" data-title="Editar">
                                         <i class="fa fa-pencil"></i>
