@@ -140,7 +140,7 @@
         }
 
         .tooth-header {
-            border: 1px solid black;    
+            border: 1px solid black;
         }
 
     </style>
@@ -160,8 +160,15 @@
         <span>N° de expediente: {{$consultation->id}}</span>
     </div>
     <br>
+    <h3>Datos del consultorio: </h3>
     <div class="row">
-        <span>Nombre completo del paciente: {{$consultation->turn->patient->name}} {{$consultation->turn->patient->apellido}}</span>
+        <span class="col-3">Teléfono: 76017331</span>
+        <span class="col-4">Fecha de consulta: {{date('d/m/Y', strtotime($consultation->updated_at))}}</span>
+        <span class="col-4">Teléfono secundario: _________</span>
+    </div>
+    <h3>Datos del paciente: </h3>
+    <div class="row">
+        <span>Nombre completo: {{$consultation->turn->patient->name}} {{$consultation->turn->patient->apellido}}</span>
     </div>
     <br>
     <div class="row">
