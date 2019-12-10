@@ -29,7 +29,7 @@
                 <div>
                     <select class="form-control" name="typeField" id="typeField" required>
 
-                        <option selected>Seleccione tipo de usuario</option>
+                        <option value="" selected>Seleccione tipo de usuario</option>
                         <option value="1">Odontologo/a</option>
                         <option value="2">Secretario/a</option>
                     </select>

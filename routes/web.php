@@ -73,10 +73,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::any('servicios/{id}/destroy', 'ServiceController@destroy')->name('servicios.destroy');
 
     //Logs
-    Route::get('logs', 'LogController@index')->name('logs.list');
+    Route::get('logs', 'LogController@index')->name('logs.list')->middleware('secretary');
 
     //Users
-    Route::get('users', 'UserController@index')->name('users');
+    Route::get('users', 'UserController@index')->name('users')->middleware('secretary');
     Route::get('users/restore', 'UserController@restore')->name('users.restore');
     Route::get('users/{id}/restore', 'UserController@restoreUser')->name('users.restore-user');
     Route::get('users/{user}', 'UserController@show')->name('users.show');
@@ -113,7 +113,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('consultation/pdf/{consultation_id}', 'ConsultationController@createPDF')->name('consultation.pdf');
 
     // Report
-    Route::get('report', 'ReportController@index')->name('report');
+    Route::get('report', 'ReportController@index')->name('report')->middleware('secretary');
     Route::post('report/search', 'ReportController@search')->name('report.search');
     Route::get('report/pdf', 'ReportController@generalReport')->name('report.pdf');
 
