@@ -20,7 +20,6 @@ class UsersRolesSeeder extends Seeder
 
         $data = [
             'admin.laravel@labs64.com' => ['administrator'],
-            'demo.laravel@labs64.com' => 'authenticated',
         ];
 
         foreach ($data as $email => $role) {

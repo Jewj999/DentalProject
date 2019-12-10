@@ -14,8 +14,6 @@
                 <th>{{ __('views.admin.users.index.table_header_2') }}</th>
                 <th>@sortablelink('active', __('views.admin.users.index.table_header_3'),['page' =>
                     $users->currentPage()])</th>
-                <th>@sortablelink('confirmed', __('views.admin.users.index.table_header_4'),['page' =>
-                    $users->currentPage()])</th>
                 <th>@sortablelink('created_at', __('views.admin.users.index.table_header_5'),['page' =>
                     $users->currentPage()])</th>
                 <th>@sortablelink('updated_at', __('views.admin.users.index.table_header_6'),['page' =>
@@ -36,12 +34,7 @@
                     <span class="label label-danger">{{ __('views.admin.users.index.inactive') }}</span>
                     @endif
                 </td>
-                <td>
-                    @if($user->confirmed)
-                    <span class="label label-success">{{ __('views.admin.users.index.confirmed') }}</span>
-                    @else
-                    <span class="label label-warning">{{ __('views.admin.users.index.not_confirmed') }}</span>
-                    @endif</td>
+
                 <td>{{ $user->created_at }}</td>
                 <td>{{ $user->updated_at }}</td>
                 <td>
@@ -55,7 +48,7 @@
                         data-title="{{ __('views.admin.users.index.edit') }}">
                         <i class="fa fa-pencil"></i>
                     </a>
-                    @if(!$user->hasRole('administrator'))
+                    @if($user->hasRole('administrator') && $user->hasRole('authenticated'))
                     <a href="{{ route('admin.users.destroy', [$user->id]) }}" class="btn btn-xs btn-danger user_destroy"
                         data-toggle="tooltip" data-placement="top"
                         data-title="{{ __('views.admin.users.index.delete') }}">
