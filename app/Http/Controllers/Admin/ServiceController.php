@@ -67,7 +67,7 @@ class ServiceController extends Controller
     {
         try {
             return view('admin.services.edit', ['service' => $service]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return view('error', ['code' => 500, 'message' => $e->getMessage()]);
         }
     }
@@ -87,11 +87,11 @@ class ServiceController extends Controller
 
     public function destroy($id)
     {
-        $patient = Patient::find($id);
-        if ($patient) {
-            $patient->delete();
-            return redirect()->route('admin.services.list')->withFlashSuccess('Paciente Eliminado');
+        $service = Service::find($id);
+        if ($service) {
+            $service->delete();
+            return redirect()->route('admin.servicios.list')->withFlashSuccess('Servicio Eliminado');
         }
-        return redirect()->route('admin.services.list')->withFlashSuccess('Error');
+        return redirect()->route('admin.servicios.list')->withFlashSuccess('Error');
     }
 }

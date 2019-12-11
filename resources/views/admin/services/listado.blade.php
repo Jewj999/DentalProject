@@ -34,8 +34,8 @@
                                         <i class="fa fa-pencil"></i>
                                     </a>
                                     <a class="btn btn-danger user_destroy"
-                                        href="{{ route('admin.servicios.edit', [$service->id]) }}" data-toggle="tooltip"
-                                        data-placement="top" data-title="{{ __('views.admin.users.index.edit') }}">
+                                        href="{{ route('admin.servicios.destroy', [$service->id]) }}" data-toggle="tooltip"
+                                        data-placement="top" data-title="Eliminar">
                                         <i class="fa fa-trash"></i>
                                     </a>
                                 </td>

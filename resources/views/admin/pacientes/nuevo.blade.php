@@ -126,7 +126,7 @@
 
     $('#nameField, #lastNameField').keypress(function(e){
 
-        if(!(($(this).val() + e.key).match(/^[A-Za-z\s]+$/))){
+        if(!(($(this).val() + e.key).match(/^[A-Za-zñÑ\s]+$/))){
             e.preventDefault();
         }
     });
@@ -135,7 +135,7 @@
             e.preventDefault();
         }
     });
-    $('#duiField').keypress(function(e){
+    $('#duiField, #phoneField').keypress(function(e){
         if($(this).val().length >= 9){
             e.preventDefault();
         }
