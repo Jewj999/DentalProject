@@ -40,7 +40,7 @@ class PacienteController extends Controller
                 "lastNameField" => "required",
                 "bornField" => "required",
                 "phoneField" => "required",
-                "duiField" => "nullable",
+                "duiField" => "nullable|unique:patients,dui",
                 "dirField" => "required",
                 "munField" => "required",
                 "sexField" => "required"

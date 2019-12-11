@@ -5,6 +5,18 @@
     <div class="x_content">
         <br>
         <div class="col-md-12 col-sm-12">
+                @if(count($errors->all()) != 0)
+                <div class="row">
+                    <div class="col-sm-12 alert alert-danger">
+                        <h4 class="alert-heading">Errores</h4>
+                        <ul>
+                            @foreach($errors->all() as $error)
+                            <li>{{$error}}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                @endif
             <div class="row">
                 <div class="x_content">
                     {{Form::open(['route' => ['admin.pacientes.create'], 'method' => 'post', 'class' => 'form-horizontal'])}}
@@ -113,7 +125,7 @@
     });
 
     $('#nameField, #lastNameField').keypress(function(e){
-   
+
         if(!(($(this).val() + e.key).match(/^[A-Za-z\s]+$/))){
             e.preventDefault();
         }
