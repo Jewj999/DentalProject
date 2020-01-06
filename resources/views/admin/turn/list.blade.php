@@ -42,7 +42,7 @@
                 </td>
                 @endif
                 <td>
-                    <a href="{{route('admin.consultation', [$turn->id])}}" class='btn btn-xs btn-primary'>
+                    <a href="{{route('admin.consultation', [$turn->id])}}" class='btn btn-xs btn-primary' data-toggle="tooltip" data-placement="top" data-title="Pasar a consulta">
                         <i class="fa fa-arrow-right"></i>
                     </a>
                 </td>

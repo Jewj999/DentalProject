@@ -83,8 +83,12 @@ class ConsultationController extends Controller
                         $tooth->job = true;
                     }
                 }
+                $patient = $consultation->turn->patient->name .  $consultation->turn->patient->apellido;
+            }else{
+                $patient = "";
+
             }
-            return view('admin.consultation.index', ['consultation' => $consultation, 'services' => $services, 'jobs' => $jobs, 'tooth' => $teeth]);
+            return view('admin.consultation.index', ['patient' => $patient, 'consultation' => $consultation, 'services' => $services, 'jobs' => $jobs, 'tooth' => $teeth]);
         } catch (\Exception $ex) {
             return view('error', ['code' => 500, 'message' => $ex->getMessage()]);
         }
@@ -187,7 +191,7 @@ class ConsultationController extends Controller
                 return view('error', ['code' => 404, 'message' => 'Consultation not found']);
             } else {
                 $consultation = $this->fillConsultation($consultation);
-                // Fill teeth information 
+                // Fill teeth information
                 $jobs = Job::all();
                 $teeth = Tooth::all();
                 $details = DetailToothConsultation::where('consultation_id', $consultation->id)->get();
@@ -204,7 +208,8 @@ class ConsultationController extends Controller
                 // Create PDF
                 $turns = Turn::where('patient_id', $consultation->turn->patient->id)->count();
                 $pdf_name = $consultation->turn->patient->apellido . '-' . $consultation->turn->patient->name . '_' . $turns . '.pdf';
-                $pdf = PDF::loadView('admin.consultation.report', compact('consultation', 'jobs'));
+                $services = $consultation->services;
+                $pdf = PDF::loadView('admin.consultation.report', compact('consultation', 'jobs', 'services'));
                 return $pdf->stream();
             }
         } catch (\Exception $ex) {

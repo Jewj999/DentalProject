@@ -30,6 +30,9 @@
 @csrf
 <input type="hidden" id='consultation' name='consultation' value="{{$consultation->id}}">
 <div class="row">
+    Atendiendo a: {{$patient}}
+</div>
+<div class="row">
     <div class="col-md-2">
         <div class="row">
             <div class="col-sm-12">

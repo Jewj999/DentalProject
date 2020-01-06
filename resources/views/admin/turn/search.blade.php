@@ -49,7 +49,7 @@
                                 <td>{{$patient->sex->name}}</td>
                                 <td>
                                     <a href="{{route('admin.turn.next', [$patient->id])}}"
-                                        class="btn btn-xs btn-primary">
+                                        class="btn btn-xs btn-primary" data-toggle="tooltip" data-placement="top" data-title="Pasar a cola">
                                         <i class='fa fa-arrow-right'></i>
                                     </a>
                                 </td>

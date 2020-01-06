@@ -157,10 +157,15 @@
         </div>
     </div>
     <div class="row">
-        <span>N° de expediente: {{$consultation->id}}</span>
+        <span class="col-4">N° de expediente: {{$consultation->id}}</span>
+        <span class="col-4">Fecha de impresion: {{date("Y-m-d H:i:s")}}</span>
     </div>
     <br>
     <h3>Datos del consultorio: </h3>
+    <div class="row">
+        <span class="col-8">Atendido por: ___________________________________________</span>
+    </div>
+    <br>
     <div class="row">
         <span class="col-3">Teléfono: 76017331</span>
         <span class="col-4">Fecha de consulta: {{date('d/m/Y', strtotime($consultation->updated_at))}}</span>
@@ -184,10 +189,6 @@
         <span class="col-3">Teléfono: -</span>
         @endif
     </div>
-    <div class="row">
-        <span>Dirección: {{$consultation->turn->patient->direction}}</span>
-    </div>
-    <br>
     @if(isset($consultation->turn->appointment))
     <div class="row">
         <span>Cita</span><br>
@@ -204,10 +205,21 @@
             </tr>
         </table>
     </div>
-    <br>
     @endif
     <div class="row">
-        <span>Odontograma:</span>
+        <h3>Servicios:</h3>
+    </div>
+    <div class="row">
+        <div>
+            @foreach($services as $s)
+            <span class="col-3">
+               {{$s->name}}
+            </span>
+            @endforeach
+        </div>
+    </div>
+    <div class="row">
+        <h3>Odontograma:</h3>
     </div>
     <br>
     <div class="row">
@@ -318,6 +330,11 @@
             @endforeach
         </div>
     </div>
-</body>
+    <div class="row">
+        <h3>Comentarios:</h3>
+    </div>
+    <div class="row">
+    <span>{{$consultation->comment}}</span>
+    </div></body>
 
 </html>
