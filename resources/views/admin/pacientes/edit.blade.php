@@ -102,6 +102,42 @@
         </div>
 
         <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="dui">
+                Departamento
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <select class="form-control" name="dptoField" id="dptoField" required>
+                    @foreach ($dptos as $dpto)
+                    @if ($dpto->id == $patient->mun->dpto->id)
+                    <option value="{{$dpto->id}}" selected>{{$dpto->name}}</option>
+                    @else
+                    <option value="{{$dpto->id}}">{{$dpto->name}}</option>
+                    @endif
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="dui">
+                Municipio
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <select class="form-control" name="munField" id="munField" required>
+                    @foreach ($patient->mun->dpto->muns as $mun)
+                    @if ($mun->id == $patient->mun->id)
+                    <option value="{{$mun->id}}" selected>{{$mun->name}}</option>
+                    @else
+                    <option value="{{$mun->id}}">{{$mun->name}}</option>
+                    @endif
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="direction">
                 Direccion
                 <span class="required">*</span>
@@ -139,8 +175,22 @@
 @section('scripts')
 @parent
 <script>
+    $("#dptoField").change(function() {
+        $.ajax({
+            type: 'GET',
+            url : `{{url('/api/${$(this).val()}/municipalities')}}`,
+            success : function(res){
+                let app = '';
+                for(let v of res){
+                    app+= `<option value="${v.id}">${v.name}</option>`
+                }
+                $('#munField').empty().append(app);
+            }
+        })
+    });
+
     $('#name, #apellido').keypress(function(e){
-   
+
         if(!(($(this).val() + e.key).match(/^[A-Za-z\s]+$/))){
             e.preventDefault();
         }

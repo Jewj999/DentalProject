@@ -23,10 +23,9 @@ Route::group(['namespace' => 'Auth'], function () {
     Route::get('logout', 'LoginController@logout')->name('logout');
 
     // Registration Routes...
-    if (config('auth.users.registration')) {
-        Route::get('register', 'RegisterController@showRegistrationForm')->name('register');
-        Route::post('register', 'RegisterController@register');
-    }
+    Route::get('register', 'RegisterController@showRegistrationForm')->name('register');
+    Route::post('register', 'RegisterController@register');
+
 
     // Password Reset Routes...
     Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.request');
@@ -78,8 +77,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     //Users
     Route::get('users', 'UserController@index')->name('users')->middleware('secretary');
     Route::get('users/restore', 'UserController@restore')->name('users.restore');
+    Route::get('users/new', 'UserController@new')->name('users.new');
     Route::get('users/{id}/restore', 'UserController@restoreUser')->name('users.restore-user');
     Route::get('users/{user}', 'UserController@show')->name('users.show');
+    Route::post('users', 'UserController@create')->name('users.create');
     Route::get('users/{user}/edit', 'UserController@edit')->name('users.edit');
     Route::put('users/{user}', 'UserController@update')->name('users.update');
     Route::any('users/{id}/destroy', 'UserController@destroy')->name('users.destroy');
@@ -93,6 +94,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('appointment/create/{patient_id}', 'AppointmentController@create')->name('appointment.create');
     Route::post('appointment', 'AppointmentController@store')->name('appointment');
     Route::get('appointment/{appointment_id}', 'AppointmentController@edit')->name('appointment.edit');
+    Route::any('appointment/{id}/destroy', 'AppointmentController@destroy')->name('appointment.destroy');
     Route::post('appointment/update', 'AppointmentController@update')->name('appointment.update');
     Route::post('appointment/search', 'AppointmentController@search')->name('appointment.search');
 

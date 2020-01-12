@@ -57,7 +57,7 @@ class ConsultationController extends Controller
                 } else {
                     array_push($errors, 'Ya se encuentra un paciente siendo atendido');
                 }
-                return redirect()->route('admin.turn')->with('errors', $errors);
+                return redirect()->route('admin.consultation.active')->with('errors', $errors);
             }
         } catch (\Exception $ex) {
             return view('error', ['code' => 500, 'message' => $ex->getMessage()]);

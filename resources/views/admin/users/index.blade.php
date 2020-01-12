@@ -4,6 +4,11 @@
 
 @section('content')
 <div class="row">
+    <a class="btn btn-info" href="{{ route('admin.users.new') }}">
+        Nuevo usuario
+    </a>
+</div>
+<div class="row">
     <table class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
         <thead>
             <tr>

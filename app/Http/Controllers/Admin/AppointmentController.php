@@ -179,6 +179,16 @@ class AppointmentController extends Controller
         }
     }
 
+    public function destroy($id)
+    {
+        $app = Appointment::find($id);
+        if ($app) {
+            $app->delete();
+            return redirect()->route('admin.appointment.list')->withFlashSuccess('Cita Cancelada');
+        }
+        return redirect()->route('admin.appointment.list')->withFlashSuccess('Error');
+    }
+
     public function search(Request $request)
     {
         try {

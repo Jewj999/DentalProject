@@ -69,7 +69,7 @@ class PacienteController extends Controller
     public function edit(Patient $patient)
     {
         try {
-            return view('admin.pacientes.edit', ['patient' => $patient]);
+            return view('admin.pacientes.edit', ['patient' => $patient, 'dptos' => Department::all()]);
         } catch (Exception $e) {
             return view('error', ['code' => 500, 'message' => $e->getMessage()]);
         }
@@ -82,7 +82,7 @@ class PacienteController extends Controller
             'apellido' => 'required',
             'born' => 'required',
             'phone' => 'required',
-            'dui' => 'required',
+            "dui" => "nullable|unique:patients,dui," . $patient->id,
             'direction' => 'required',
         ]);
 

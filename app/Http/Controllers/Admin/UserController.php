@@ -10,7 +10,7 @@ use App\Repositories\Access\User\EloquentUserRepository;
 use Validator;
 
 class UserController extends Controller
-{   
+{
     /**
      * Repository
      *
@@ -20,7 +20,7 @@ class UserController extends Controller
 
     /**
      * Construct
-     * 
+     *
      */
     public function __construct()
     {
@@ -53,12 +53,17 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
+
+    public function new()
+    {
+        return view('admin.users.nuevo');
+    }
+
     public function restoreUser($id)
     {
         $status = $this->repository->restore($id);
 
-        if($status)
-        {
+        if ($status) {
             return redirect()->route('admin.users')->withFlashSuccess('User Restored Successfully!');
         }
 
@@ -70,9 +75,32 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+
+        $v = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|min:6|confirmed',
+            'typeField' => 'required'
+        ]);
+
+        if ($v->fails()) {
+            return redirect()->back()->withErrors($v->errors());
+        }
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->active = 1;
+        $user->confirmed = 1;
+        $user->save();
+        $user->roles()->attach(Role::firstOrCreate(['name' => config('auth.users.default_role')]));
+        if ($request->typeField == '2') {
+            $user->roles()->attach(Role::firstOrCreate(['name' => 'authenticated']));
+        }
+        return redirect()->route('admin.users')->withFlashSuccess('Usuario creado');
     }
 
     /**
@@ -141,7 +169,6 @@ class UserController extends Controller
             $user->password = bcrypt($request->get('password'));
         }
 
-        $user->active = $request->get('active', 0);
         $user->confirmed = $request->get('confirmed', 0);
 
         $user->save();
@@ -168,8 +195,7 @@ class UserController extends Controller
     {
         $status = $this->repository->destroy($id);
 
-        if($status)
-        {
+        if ($status) {
             return redirect()->route('admin.users')->withFlashSuccess('User Deleted Successfully!');
         }
 

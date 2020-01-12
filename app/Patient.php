@@ -16,4 +16,9 @@ class Patient extends Model
     {
         return $this->belongsTo('App\Sexe', 'sex_id', 'id');
     }
+
+    public function mun()
+    {
+        return $this->belongsTo('App\Municipality', 'municipality_id');
+    }
 }

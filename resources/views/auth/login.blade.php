@@ -17,12 +17,6 @@
                     <input id="password" type="password" class="form-control" name="password"
                         placeholder="{{ __('views.auth.login.input_1') }}" required>
                 </div>
-                <div class="checkbox al_left">
-                    <label>
-                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                        {{ __('views.auth.login.input_2') }}
-                    </label>
-                </div>
 
                 @if (session('status'))
                 <div class="alert alert-success">
@@ -38,28 +32,11 @@
 
                 <div>
                     <button class="btn btn-default submit" type="submit">{{ __('views.auth.login.action_0') }}</button>
-                    <a class="reset_pass" href="{{ route('password.request') }}">
-                        {{ __('views.auth.login.action_1') }}
-                    </a>
+
                 </div>
 
                 <div class="clearfix"></div>
 
-
-
-                @if(config('auth.users.registration'))
-                <div class="separator">
-                    <p class="change_link">{{ __('views.auth.login.message_1') }}
-                        <a href="{{ route('register') }}" class="to_register"> {{ __('views.auth.login.action_2') }}
-                        </a>
-                    </p>
-
-                    <div class="clearfix"></div>
-                    <br />
-
-
-                </div>
-                @endif
                 {{ Form::close() }}
             </section>
         </div>

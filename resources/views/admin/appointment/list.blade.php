@@ -45,6 +45,12 @@
                     <a href="{{route('admin.appointment.edit', [$appoint->id])}}" class="btn btn-xs btn-primary">
                         <i class="fa fa-pencil"></i>
                     </a>
+                    <a class="btn btn-xs btn-danger user_destroy"
+                        href="{{route('admin.appointment.destroy', [$appoint->id])}}"
+                        data-toggle="tooltip"
+                        data-placement="top" data-title="Cancelar">
+                        <i class="fa fa-trash"></i>
+                    </a>
                 </td>
             </tr>
             @endforeach
