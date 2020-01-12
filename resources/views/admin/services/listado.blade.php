@@ -33,11 +33,6 @@
                                         data-toggle="tooltip" data-placement="top" data-title="Editar">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    <a class="btn btn-danger user_destroy"
-                                        href="{{ route('admin.servicios.destroy', [$service->id]) }}" data-toggle="tooltip"
-                                        data-placement="top" data-title="Eliminar">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
                                 </td>
                             </tr>
                             @endforeach
