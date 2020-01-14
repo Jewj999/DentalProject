@@ -72,6 +72,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     //Logs
     Route::get('logs', 'LogController@index')->name('logs.list')->middleware('secretary');
+    Route::post('logs/search', 'LogController@search')->name('logs.search');
 
     //Users
     Route::get('users', 'UserController@index')->name('users')->middleware('secretary');

@@ -5,14 +5,18 @@
     <div class="x_content">
         <div class="col-md-12 col-sm-12">
             <div class="row">
+                {{Form::open(['route'=>['admin.logs.search'], 'method'=> 'post'])}}
+
                 <div class="col-md-11">
-                    <input type="text" name="filter" id="filter_input" class="form-control" placeholder="Buscar...">
+                    <input type="text" name="parameter" id="filter_input" class="form-control" placeholder="Buscar...">
                 </div>
                 <div class="col-md-1">
-                    <button class="btn btn-success" type="button" id='btn_filter'>
+                    <button class="btn btn-success" type="submit" id='btn_filter'>
                         <i class="fa fa-search"></i>
                     </button>
                 </div>
+                {{Form::close()}}
+
             </div>
             <div class="row">
                 <div class="x_content">

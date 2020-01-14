@@ -173,7 +173,7 @@
     </div>
     <h3>Datos del paciente: </h3>
     <div class="row">
-        <span>Nombre completo: {{$consultation->turn->patient->name}} {{$consultation->turn->patient->apellido}}</span>
+        <h3>Nombre completo: {{$consultation->turn->patient->name}} {{$consultation->turn->patient->apellido}}</h3>
     </div>
     <br>
     <div class="row">
