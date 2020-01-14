@@ -94,6 +94,7 @@ class PacienteController extends Controller
         $patient->phone = $request->get('phone');
         $patient->dui = $request->get('dui');
         $patient->direction = $request->get('direction');
+        $patient->municipality_id = $request->munField;
         $patient->save();
 
         return redirect()->intended(route('admin.pacientes.list'));
